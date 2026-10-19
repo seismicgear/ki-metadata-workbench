@@ -45,7 +45,10 @@ def main():
     assert install['installed_desktop_checks'] == 'passed' and install['application_removed']
     assert install['appimage_payload_verified'] and install['system_perl_and_brotli_verified']
     assert install['appimage_desktop_checks'] == 'passed'
-    assert install['desktop_sandbox_disabled'] is False and install['appimage_sandbox_disabled'] is True
+    assert install['desktop_sandbox_disabled'] is False and desktop['chromium_sandbox_disabled'] is False
+    # The AppImage wrapper selects its sandbox mode based on host support.
+    assert isinstance(install['appimage_sandbox_disabled'], bool)
+    assert install['appimage_sandbox_disabled'] is appimage_desktop['chromium_sandbox_disabled']
     assert install['appimage_default_launch_arguments'] == ['--no-sandbox']
     for record in [desktop, appimage_desktop]:
         assert record['actual_packaged_electron'] and record['passed'] >= 7
