@@ -40,7 +40,8 @@ async function launch(args) {
   // Do not allow the development tool paths to make a broken package appear healthy.
   const env = {...process.env};
   for (const key of ['KI_CORE', 'KI_EXIFTOOL', 'KI_FFMPEG', 'KI_FFPROBE', 'KI_READ_ONLY', 'ELECTRON_RUN_AS_NODE']) delete env[key];
-  app = await _electron.launch({executablePath, args, env, timeout: 60000});
+  // Preserve the app's normal sandbox behavior; Playwright otherwise adds --no-sandbox on Linux.
+  app = await _electron.launch({executablePath, args, env, timeout: 60000, chromiumSandbox: true});
   const win = await app.firstWindow();
   win.setDefaultTimeout(20000);
   await win.waitForFunction(() => document.querySelectorAll('.file-row').length === 1 && document.getElementById('stop-jobs').hidden);
