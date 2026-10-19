@@ -1,0 +1,9 @@
+PASS Patched Array registers METADATA with the existing Annex and FORGE adapters and NSIS-only identity
+PASS No unsupported METADATA adapter is registered on darwin
+PASS No unsupported METADATA adapter is registered on linux
+PASS The adapter rejects a different executable basename
+PASS The adapter requires the actual KI product resource, not a generic Electron identity
+PASS Unsigned application and installer candidates are refused by Array publisher trust
+PASS A matching trusted identity resolves the release version and executable hash
+PASS Update protection checks the app, native core, FFmpeg, ffprobe and ExifTool at their installation paths
+8 Array adapter contract checks passed against the patched source. Windows OS calls were mocked; no repository was published or installer executed.

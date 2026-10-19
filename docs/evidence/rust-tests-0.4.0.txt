@@ -1,0 +1,37 @@
+   Compiling ki-meta v0.4.0 (/workspace/scratch/3b0d1facb3ff/ki-metadata-workbench/native)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.04s
+     Running unittests src/main.rs (native/target/debug/deps/ki_meta-08bab48a19b1e039)
+
+running 29 tests
+test audio::tests::privacy_retains_rights_and_artists ... ok
+test audio::tests::label_and_publisher_are_distinct ... ok
+test audio::tests::field_names_are_unique ... ok
+test audio::tests::raw_key_is_not_arbitrary_code ... ok
+test evidence::tests::short_headers_do_not_panic ... ok
+test image_privacy::tests::jpeg_metadata_after_scan_is_not_treated_as_pixels ... ok
+test image_privacy::tests::arbitrary_png_metadata_and_trailer_are_removed ... ok
+test image_privacy::tests::oversized_jpeg_rendering_headers_cannot_hide_private_metadata ... ok
+test image_privacy::tests::truncated_and_unknown_critical_png_are_rejected ... ok
+test images::tests::malformed_exif_is_not_treated_as_upright ... ok
+test images::tests::orientation_survives_minimal_exif ... ok
+test evidence::tests::known_sha256_and_blake3 ... ok
+test evidence::tests::office_container_does_not_claim_docx_validation ... ok
+test images::tests::preserves_icc_and_png_rendering_chunks ... ok
+test evidence::tests::mismatched_extension_is_detected ... ok
+test transaction::tests::hash_detects_byte_changes ... ok
+test transaction::tests::rejects_nul ... ok
+test video::tests::inventory_detects_missing_stream ... ok
+test video::tests::privacy_does_not_delete_rotation_or_language ... ok
+test image_privacy::tests::png_retained_crc_is_verified ... ok
+test xmp::tests::rejects_entity_documents ... ok
+test xmp::tests::escapes_xml_not_markup ... ok
+test transaction::tests::unknown_files_are_inspect_only ... ok
+test xmp::tests::edits_preserve_unknown_xml_bytes ... ok
+test xmp::tests::deeply_nested_xmp_is_rejected_before_tree_parsing ... ok
+test xmp::tests::invalid_custom_name_is_rejected ... ok
+test xmp::tests::keywords_escape_ampersands_before_building_xml ... ok
+test xmp::tests::roundtrip_unicode ... ok
+test xmp::tests::removes_previous_property_instead_of_duplicating ... ok
+
+test result: ok. 29 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

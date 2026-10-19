@@ -1,0 +1,65 @@
+PASS MP3 stream-copy tagging preserves demuxed A/V packet hashes
+PASS MP4 all-stream remux preserves packet hashes and requested tags
+PASS Native MP3 Unicode metadata edit and verification
+PASS Native copy refuses clobber
+PASS Native stale etag refuses edit
+PASS Native descriptive clear removes comment
+PASS Native replacement backup and full-file restoration
+PASS Native png XMP preserves image bytes and Unicode
+PASS Native jpg XMP preserves image bytes and Unicode
+PASS Native artwork replacement, extraction and removal
+PASS Native video rejects unacknowledged remux
+PASS Native video tag edit retains A/V inventory
+{
+  "mode": "native-and-ffmpeg",
+  "results": [
+    {
+      "name": "MP3 stream-copy tagging preserves demuxed A/V packet hashes",
+      "passed": true
+    },
+    {
+      "name": "MP4 all-stream remux preserves packet hashes and requested tags",
+      "passed": true
+    },
+    {
+      "name": "Native MP3 Unicode metadata edit and verification",
+      "passed": true
+    },
+    {
+      "name": "Native copy refuses clobber",
+      "passed": true
+    },
+    {
+      "name": "Native stale etag refuses edit",
+      "passed": true
+    },
+    {
+      "name": "Native descriptive clear removes comment",
+      "passed": true
+    },
+    {
+      "name": "Native replacement backup and full-file restoration",
+      "passed": true
+    },
+    {
+      "name": "Native png XMP preserves image bytes and Unicode",
+      "passed": true
+    },
+    {
+      "name": "Native jpg XMP preserves image bytes and Unicode",
+      "passed": true
+    },
+    {
+      "name": "Native artwork replacement, extraction and removal",
+      "passed": true
+    },
+    {
+      "name": "Native video rejects unacknowledged remux",
+      "passed": true
+    },
+    {
+      "name": "Native video tag edit retains A/V inventory",
+      "passed": true
+    }
+  ]
+}

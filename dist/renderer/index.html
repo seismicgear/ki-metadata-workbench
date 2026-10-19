@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: ki-media:; media-src 'self' ki-media: blob:; connect-src 'none'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>METADATA · Kuykendall Industries</title><link rel="stylesheet" href="./app.css">
+</head>
+<body>
+<div id="app">
+  <header class="app-header">
+    <div class="brand"><img src="../assets/metadata-mark.svg" alt="" class="product-mark"><div class="product"><strong>METADATA</strong><span>KUYKENDALL INDUSTRIES</span></div></div>
+    <div class="app-family"><span class="eyebrow">ARRAY ECOSYSTEM</span><span>Free standalone utility</span></div>
+    <div class="header-actions">
+      <button id="command-button" class="command-trigger" title="Command menu (Ctrl+K)"><span>Find an action</span><kbd>Ctrl K</kbd></button>
+      <button id="session-mode" class="session-mode" aria-pressed="false">Edit &amp; clean</button>
+      <button id="history-button" class="icon-button" title="History" aria-label="History"></button>
+      <button id="tools-button" class="icon-button" title="Settings" aria-label="Settings"></button>
+    </div>
+  </header>
+  <div class="context-strip"><span><i class="status-dot"></i>LOCAL WORKSPACE</span><span id="session-description">ORIGINALS RETAINED</span><span class="context-right">IMAGES <b>/</b> VIDEO <b>/</b> AUDIO <b>/</b> DOCUMENTS</span></div>
+  <div id="preview-banner" class="preview-banner" hidden>INTERFACE PREVIEW · SYNTHETIC TEST FILES · WRITES DISABLED</div>
+  <div id="notice" class="notice" role="alert" hidden></div>
+  <div class="workspace">
+    <aside class="library">
+      <nav class="utility-nav" aria-label="Utility navigation">
+        <button id="nav-workspace" class="nav-item active">Files</button>
+        <button id="nav-overview" class="nav-item">Overview</button>
+        <button id="nav-compare" class="nav-item">Compare</button>
+        <button id="nav-batch" class="nav-item">Batch edit</button>
+        <button id="nav-reports" class="nav-item">Reports</button>
+        <div class="nav-divider"></div>
+        <button id="nav-presets" class="nav-item">Team presets</button>
+        <button id="nav-formats" class="nav-item">Formats &amp; help</button>
+      </nav>
+      <div class="section-heading"><span>WORKSPACE FILES</span><span id="file-count">0 FILES</span></div>
+      <div class="import-actions"><button id="add-files" class="button primary full"></button><button id="add-folder" class="button subtle full"></button></div>
+      <div class="search-wrap"><span id="search-icon"></span><input id="file-search" type="search" placeholder="Search files" aria-label="Search files"></div>
+      <div class="library-filter" id="library-filter"></div>
+      <div class="selection-row"><label><input id="select-all" type="checkbox"> Select all</label><button id="clear-workspace" class="text-button">Clear</button></div>
+      <div id="file-list" class="file-list" role="list" aria-label="Workspace files"></div>
+      <div class="library-bottom"><span id="queue-status">Drop any file to begin.</span><button id="stop-jobs" class="text-button" hidden>Stop after current file</button><div class="privacy-footnote"><span class="status-dot"></span> No accounts. No uploads.</div></div>
+    </aside>
+    <main class="work-area"><header id="document-header" class="document-header"></header><nav id="tabs" class="tabs" aria-label="Editor views"></nav><div id="editor" class="editor"></div><footer id="save-bar" class="save-bar"></footer></main>
+    <aside id="inspector" class="inspector"></aside>
+  </div>
+  <footer class="status-bar"><span>KUYKENDALL INDUSTRIES <b>/</b> METADATA</span><span id="global-status">Ready</span><span>0.4.0</span></footer>
+</div>
+<div id="toast" class="toast" role="status" hidden></div><dialog id="dialog"><div id="dialog-content"></div></dialog><script type="module" src="./app.js"></script>
+</body></html>

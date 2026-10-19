@@ -1,0 +1,13 @@
+Created app.asar from frozen runtime files
+Verified ASAR files: 53
+Windows product/version/icon resources verified; every non-resource section and overlay is unchanged.
+  • electron-builder  version=26.15.3 os=6.18.55
+  • loaded configuration  file=package.json ("build" field)
+  • building        target=portable file=release/KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe archs=x64
+  • signing with signtool.exe  path=release/KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe
+  • building        target=nsis file=release/KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe archs=x64 oneClick=false perMachine=false
+Generated the NSIS uninstaller with electron-builder’s native reader; no Windows process was executed.
+  • signing with signtool.exe  path=release/KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.__uninstaller.exe
+  • signing with signtool.exe  path=release/KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe
+  • building block map  blockMapFile=release/KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe.blockmap
+Bundled and byte-verified native, media and license resources

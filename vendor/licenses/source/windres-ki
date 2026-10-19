@@ -1,0 +1,2 @@
+#!/bin/sh
+exec "/workspace/scratch/3b0d1facb3ff/build-tools/mingw/usr/bin/x86_64-w64-mingw32-windres" --preprocessor="/workspace/scratch/3b0d1facb3ff/build-tools/media-engines/cpp-ki" "$@"

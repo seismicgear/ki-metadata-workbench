@@ -10,11 +10,15 @@ A free, standalone file utility by **Kuykendall Industries**. Prepared for the A
 
 ## Download and open
 
+[GitHub Releases](https://github.com/seismicgear/ki-metadata-workbench/releases/tag/v0.4.0) · [Build and qualification](https://github.com/seismicgear/ki-metadata-workbench/actions/workflows/windows-release.yml)
+
+GitHub packages are built and tested by the Windows release workflow. The attached release checksums and build provenance identify those downloads; historical local-build evidence remains in the source. See [GitHub packaging](docs/GITHUB_RELEASES.md).
+
 | Download | Use it for |
 |---|---|
-| **KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe** | Open the utility without an installer. |
-| **KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe** | Install for the current Windows user, choose an installation folder, and create shortcuts. This is the package intended for Array distribution. |
-| **KI-Metadata-Workbench-0.4.0-Source.zip** | Complete source, tests, Windows native engine, vendor tools, licenses and Array handoff. |
+| [KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.0/KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe) | Open the utility without an installer. |
+| [KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.0/KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe) | Install for the current Windows user, choose an installation folder, and create shortcuts. This is the package intended for Array distribution. |
+| [KI-Metadata-Workbench-0.4.0-Source.zip](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.0/KI-Metadata-Workbench-0.4.0-Source.zip) | Complete source, tests, Windows native engine, vendor tools, licenses and Array handoff. |
 
 Both Windows x64 downloads include Electron, the Rust metadata engine, ExifTool, FFmpeg and ffprobe. Employees need no development tools, separate media-tool installation, account or license activation. Processing stays on their computer. The app also runs independently of Array.
 

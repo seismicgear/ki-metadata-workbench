@@ -1,0 +1,181 @@
+PASS JPEG inspection detects EXIF orientation, removable metadata, ICC and trailing bytes
+PASS PNG inspection detects compressed AI workflow/text, EXIF, ICC and trailing bytes
+PASS WebP inspection detects EXIF, XMP, C2PA, ICC, unknown chunks and trailing bytes
+PASS Native jpg strip removes all injected privacy blocks without changing encoded or decoded pixels
+PASS Native jpg strict export is idempotent and does not reintroduce metadata
+PASS Native png strip removes all injected privacy blocks without changing encoded or decoded pixels
+PASS Native png strict export is idempotent and does not reintroduce metadata
+PASS Native webp strip removes all injected privacy blocks without changing encoded or decoded pixels
+PASS Native webp strict export is idempotent and does not reintroduce metadata
+PASS Progressive JPEG metadata between scans is removed; every scan and decoded pixel survives
+PASS Malformed jpg EXIF/text payloads are removable without requiring their successful interpretation
+PASS Malformed png EXIF/text payloads are removable without requiring their successful interpretation
+PASS Malformed webp EXIF/text payloads are removable without requiring their successful interpretation
+PASS A bad CRC in removable PNG text does not prevent a verified privacy export
+PASS Deeply nested valid XMP is bounded during inspection and removable without parsing it
+PASS Persisted strict-export journals do not retain the removed private metadata
+PASS Animated PNG retains frame controls, timing, encoded frames and actual decoded pixels
+PASS PNG palette, transparency and rendering chunks survive strict stripping
+PASS WebP retained odd-byte chunk padding is cleared while lossless coding bytes remain intact
+PASS Lossy WebP preserves its exact VP8 coding data and actual decoded pixels
+PASS Real transparent WebP keeps its ALPH data, alpha feature flag and decoded RGBA pixels
+PASS Animated WebP strips metadata inside ANMF frames and preserves frame pixels, timing and loop count
+PASS Strict policy rejects descriptive fields so an export cannot silently reintroduce metadata
+PASS Strict policy rejects raw fields so an export cannot silently reintroduce metadata
+PASS Strict policy rejects artwork changes so an export cannot silently reintroduce metadata
+PASS Strict image policy rejects audio instead of silently using a weaker audio policy
+PASS Strict export refuses a stale source fingerprint and leaves both source and output untouched
+PASS Strict Save Copy never overwrites an existing destination
+PASS Malformed container is rejected without any file change: unknown critical PNG chunk
+PASS Malformed container is rejected without any file change: corrupted PNG header CRC
+PASS Malformed container is rejected without any file change: truncated PNG IEND
+PASS Malformed container is rejected without any file change: truncated JPEG without EOI
+PASS Malformed container is rejected without any file change: WebP RIFF size beyond file
+PASS Malformed container is rejected without any file change: raw WebP ALPH with forged extra bytes
+PASS Explicit image replacement creates an exact recoverable original backup
+{
+  "mode": "real-native-image-privacy",
+  "checks": 35,
+  "results": [
+    {
+      "name": "JPEG inspection detects EXIF orientation, removable metadata, ICC and trailing bytes",
+      "passed": true
+    },
+    {
+      "name": "PNG inspection detects compressed AI workflow/text, EXIF, ICC and trailing bytes",
+      "passed": true
+    },
+    {
+      "name": "WebP inspection detects EXIF, XMP, C2PA, ICC, unknown chunks and trailing bytes",
+      "passed": true
+    },
+    {
+      "name": "Native jpg strip removes all injected privacy blocks without changing encoded or decoded pixels",
+      "passed": true
+    },
+    {
+      "name": "Native jpg strict export is idempotent and does not reintroduce metadata",
+      "passed": true
+    },
+    {
+      "name": "Native png strip removes all injected privacy blocks without changing encoded or decoded pixels",
+      "passed": true
+    },
+    {
+      "name": "Native png strict export is idempotent and does not reintroduce metadata",
+      "passed": true
+    },
+    {
+      "name": "Native webp strip removes all injected privacy blocks without changing encoded or decoded pixels",
+      "passed": true
+    },
+    {
+      "name": "Native webp strict export is idempotent and does not reintroduce metadata",
+      "passed": true
+    },
+    {
+      "name": "Progressive JPEG metadata between scans is removed; every scan and decoded pixel survives",
+      "passed": true
+    },
+    {
+      "name": "Malformed jpg EXIF/text payloads are removable without requiring their successful interpretation",
+      "passed": true
+    },
+    {
+      "name": "Malformed png EXIF/text payloads are removable without requiring their successful interpretation",
+      "passed": true
+    },
+    {
+      "name": "Malformed webp EXIF/text payloads are removable without requiring their successful interpretation",
+      "passed": true
+    },
+    {
+      "name": "A bad CRC in removable PNG text does not prevent a verified privacy export",
+      "passed": true
+    },
+    {
+      "name": "Deeply nested valid XMP is bounded during inspection and removable without parsing it",
+      "passed": true
+    },
+    {
+      "name": "Persisted strict-export journals do not retain the removed private metadata",
+      "passed": true
+    },
+    {
+      "name": "Animated PNG retains frame controls, timing, encoded frames and actual decoded pixels",
+      "passed": true
+    },
+    {
+      "name": "PNG palette, transparency and rendering chunks survive strict stripping",
+      "passed": true
+    },
+    {
+      "name": "WebP retained odd-byte chunk padding is cleared while lossless coding bytes remain intact",
+      "passed": true
+    },
+    {
+      "name": "Lossy WebP preserves its exact VP8 coding data and actual decoded pixels",
+      "passed": true
+    },
+    {
+      "name": "Real transparent WebP keeps its ALPH data, alpha feature flag and decoded RGBA pixels",
+      "passed": true
+    },
+    {
+      "name": "Animated WebP strips metadata inside ANMF frames and preserves frame pixels, timing and loop count",
+      "passed": true
+    },
+    {
+      "name": "Strict policy rejects descriptive fields so an export cannot silently reintroduce metadata",
+      "passed": true
+    },
+    {
+      "name": "Strict policy rejects raw fields so an export cannot silently reintroduce metadata",
+      "passed": true
+    },
+    {
+      "name": "Strict policy rejects artwork changes so an export cannot silently reintroduce metadata",
+      "passed": true
+    },
+    {
+      "name": "Strict image policy rejects audio instead of silently using a weaker audio policy",
+      "passed": true
+    },
+    {
+      "name": "Strict export refuses a stale source fingerprint and leaves both source and output untouched",
+      "passed": true
+    },
+    {
+      "name": "Strict Save Copy never overwrites an existing destination",
+      "passed": true
+    },
+    {
+      "name": "Malformed container is rejected without any file change: unknown critical PNG chunk",
+      "passed": true
+    },
+    {
+      "name": "Malformed container is rejected without any file change: corrupted PNG header CRC",
+      "passed": true
+    },
+    {
+      "name": "Malformed container is rejected without any file change: truncated PNG IEND",
+      "passed": true
+    },
+    {
+      "name": "Malformed container is rejected without any file change: truncated JPEG without EOI",
+      "passed": true
+    },
+    {
+      "name": "Malformed container is rejected without any file change: WebP RIFF size beyond file",
+      "passed": true
+    },
+    {
+      "name": "Malformed container is rejected without any file change: raw WebP ALPH with forged extra bytes",
+      "passed": true
+    },
+    {
+      "name": "Explicit image replacement creates an exact recoverable original backup",
+      "passed": true
+    }
+  ]
+}

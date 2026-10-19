@@ -1,0 +1,8 @@
+node_modules/
+native/target/
+release/
+.tmp/
+tests/fixtures/
+*.log
+__pycache__/
+*.pyc

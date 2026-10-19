@@ -1,0 +1,23 @@
+{
+  "ki-meta.exe": [
+    "KERNEL32.dll",
+    "msvcrt.dll",
+    "ntdll.dll",
+    "bcryptprimitives.dll",
+    "api-ms-win-core-synch-l1-2-0.dll",
+    "kernel32.dll",
+    "ntdll.dll"
+  ],
+  "ffmpeg.exe": [
+    "bcrypt.dll",
+    "KERNEL32.dll",
+    "msvcrt.dll",
+    "SHELL32.dll"
+  ],
+  "ffprobe.exe": [
+    "bcrypt.dll",
+    "KERNEL32.dll",
+    "msvcrt.dll",
+    "SHELL32.dll"
+  ]
+}

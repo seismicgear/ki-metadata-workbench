@@ -1,0 +1,104 @@
+{
+  "name": "ki-metadata-workbench",
+  "productName": "KI Metadata Workbench",
+  "version": "0.4.0",
+  "description": "A local metadata workbench by Kuykendall Industries. Rust core, Electron shell, framework-free TypeScript UI.",
+  "author": "Kuykendall Industries",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "electron/main.cjs",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "doctor": "node scripts/doctor.mjs",
+    "build:ui": "tsc -p tsconfig.json && node scripts/copy-assets.mjs",
+    "build:core": "cargo build --manifest-path native/Cargo.toml --release",
+    "build": "npm run build:ui && npm run build:core",
+    "start": "electron .",
+    "dev": "npm run build && npm start",
+    "test:ui": "npm run build:ui && node --test tests/model.test.mjs tests/shell.test.cjs tests/enterprise.test.mjs",
+    "test:core": "cargo test --manifest-path native/Cargo.toml",
+    "test:media": "node tests/media.integration.mjs",
+    "test": "npm run test:ui && npm run test:core && npm run build:core && npm run test:media && npm run test:privacy && npm run test:expanded && npm run test:enterprise",
+    "dist:win": "npm run build && electron-builder --win nsis --x64",
+    "dist:portable": "npm run build && electron-builder --win portable --x64",
+    "build:preview": "npm run build:ui && node scripts/build-preview.mjs",
+    "test:ffmpeg": "node tests/media.integration.mjs --ffmpeg-only",
+    "test:browser": "npm run build:preview && node tests/browser.preview.test.mjs",
+    "test:privacy": "node tests/image-privacy.integration.mjs",
+    "test:expanded": "node tests/expanded.integration.mjs",
+    "test:desktop": "node tests/electron.integration.mjs && node tests/enterprise.desktop.mjs",
+    "test:enterprise": "node tests/enterprise.integration.mjs",
+    "build:icons": "node scripts/build-icon.mjs"
+  },
+  "devDependencies": {
+    "electron": "^44.0.0",
+    "electron-builder": "^26.0.12",
+    "playwright": "1.62.1",
+    "resedit": "3.1.0",
+    "typescript": "5.9.3",
+    "pe-library": "2.0.1"
+  },
+  "build": {
+    "appId": "industries.kuykendall.metadata",
+    "productName": "KI Metadata Workbench",
+    "copyright": "Kuykendall Industries",
+    "asar": true,
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "assets/**/*",
+      "package.json",
+      "!dist/renderer/preview-bridge.js",
+      "!dist/renderer/preview-bridge.js.map"
+    ],
+    "extraResources": [
+      {
+        "from": "native/target/release/ki-meta.exe",
+        "to": "bin/ki-meta.exe"
+      },
+      {
+        "from": "vendor/win32-x64",
+        "to": "bin"
+      },
+      {
+        "from": "vendor/licenses",
+        "to": "licenses"
+      }
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "icon": "assets/metadata-icon.ico",
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "deleteAppDataOnUninstall": false,
+      "uninstallDisplayName": "KI Metadata Workbench",
+      "include": "build/installer.nsh",
+      "perMachine": false,
+      "allowElevation": false,
+      "artifactName": "KI-Metadata-Workbench-${version}-Windows-x64-Setup.exe"
+    },
+    "artifactName": "KI-Metadata-Workbench-${version}-${arch}.${ext}",
+    "portable": {
+      "artifactName": "KI-Metadata-Workbench-${version}-Windows-x64-Portable.exe"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seismicgear/ki-metadata-workbench.git"
+  },
+  "homepage": "https://github.com/seismicgear/ki-metadata-workbench#readme",
+  "bugs": {
+    "url": "https://github.com/seismicgear/ki-metadata-workbench/issues"
+  }
+}

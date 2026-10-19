@@ -1,0 +1,20 @@
+{
+  "version": "0.4.0",
+  "engines": [
+    {
+      "file": "ffmpeg.exe",
+      "size": 11821056,
+      "sha256": "244561091314ad5d498d91d68ff462cde8c41ffeaf81ed1a6f806d12aecafdbe"
+    },
+    {
+      "file": "ffprobe.exe",
+      "size": 11605504,
+      "sha256": "71fc59cff5a157ea4382008f2b6fc06e24b487124c6d153f8cb128212ab5529d"
+    },
+    {
+      "file": "exiftool/exiftool.exe",
+      "size": 58368,
+      "sha256": "68c079c32fdae0d6c7130e9a5fb73f8ac9dabdf9ab8da312da4f6c549d6d3385"
+    }
+  ]
+}

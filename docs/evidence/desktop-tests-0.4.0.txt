@@ -1,0 +1,11 @@
+PASS Actual desktop launches with the native engine and ExifTool, without the preview bridge
+PASS Picker-approved files reach native inspection through real IPC
+PASS A renderer cannot inspect a path that the user has not selected
+PASS A team preset exports only the checked fields, with no hidden employee details
+PASS Preset packs import with fresh identities and preserve existing templates
+PASS One folder selection saves a mixed batch with neutral names and collision-safe output
+PASS Every batch result is re-openable, verified and cleared of its targeted metadata
+PASS All four originals, including the skipped file, remain byte-for-byte unchanged
+PASS Released folder tokens cannot authorize further writes
+PASS The desktop command menu works through native keyboard handling
+10 actual Electron/native workflow checks passed. Picker responses were automated; no Windows runtime launch is claimed.

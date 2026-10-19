@@ -1,0 +1,131 @@
+name: Windows qualification and release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'package*.json'
+      - 'native/**'
+      - 'src/**'
+      - 'electron/**'
+      - 'assets/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'vendor/**'
+      - 'integration/**'
+      - '.github/workflows/**'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: metadata-windows-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PYTHON: python
+      KI_EXIFTOOL: ${{ github.workspace }}/vendor/win32-x64/exiftool/exiftool.exe
+      KI_FFMPEG: ${{ github.workspace }}/vendor/win32-x64/ffmpeg.exe
+      KI_FFPROBE: ${{ github.workspace }}/vendor/win32-x64/ffprobe.exe
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Install pinned desktop dependencies
+        run: npm ci
+      - name: Compile and test the Windows native engine
+        run: |
+          rustup toolchain install stable --profile minimal
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          rustup override set stable
+          cargo test --manifest-path native/Cargo.toml --locked
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          cargo build --manifest-path native/Cargo.toml --release --locked
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Compile UI and verify model, shell and enterprise behavior
+        run: npm run test:ui
+      - name: Prepare bundled upstream image fixtures
+        run: python scripts/prepare-ci-fixtures.py
+      - name: Verify expanded files and enterprise inventory on Windows
+        run: |
+          npm run test:expanded
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          npm run test:enterprise
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Exercise actual Electron and native workflows on Windows
+        run: npm run test:desktop
+      - name: Build portable and per-user installer
+        run: |
+          npm run build:preview
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          npx --no-install electron-builder --win nsis portable --x64
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Install, launch and uninstall the packaged application
+        run: ./scripts/verify-windows-install.ps1
+      - name: Assemble source, checksums and build provenance
+        run: python scripts/package-github-release.py
+      - name: Preserve qualified release files
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: metadata-windows-release
+          path: release/publish/*
+          if-no-files-found: error
+          retention-days: 14
+      - name: Preserve diagnostics
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: metadata-windows-diagnostics
+          path: |
+            release/ci-evidence/*
+            release/builder-debug.yml
+          if-no-files-found: ignore
+          retention-days: 14
+
+  publish:
+    needs: windows
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: metadata-windows-release
+          path: release/publish
+      - name: Publish the immutable versioned preview
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(node -p "require('./package.json').version")
+          tag="v${version}"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $tag already exists; existing assets are kept. Bump the version for a new release."
+            exit 0
+          fi
+          gh release create "$tag" release/publish/* \
+            --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "METADATA $version" --notes-file "docs/releases/$tag.md" \
+            --prerelease --latest=false

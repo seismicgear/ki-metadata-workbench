@@ -1,0 +1,29 @@
+[package]
+name = "ki-meta"
+version = "0.4.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+anyhow = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+blake3 = "1.8"
+sha2 = "=0.11.1"
+base64 = "0.22"
+tempfile = "3.20"
+lofty = "=0.25.4"
+img-parts = "0.4"
+kamadak-exif = "0.6"
+xmltree = "0.11"
+quick-xml = "0.37"
+flate2 = "1.0"
+wait-timeout = "0.2"
+crc32fast = "1.4"
+lopdf = { version = "=0.45.0", default-features = false }
+zip = { version = "=4.6.1", default-features = false, features = ["deflate"] }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+strip = true

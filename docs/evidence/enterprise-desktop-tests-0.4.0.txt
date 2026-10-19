@@ -1,0 +1,12 @@
+PASS Standalone launch arguments import two real files without a file-picker round trip
+PASS Inspect-only mode exposes real fingerprints and pauses automatic media preview
+PASS Real IPC rejects save and restore before any destination is opened in inspect-only mode
+PASS Metadata comparison shows the actual differing generation parameters
+PASS A real JSON export includes file identity while omitting original names, paths and private values
+PASS Detailed CSV report exports only after explicit metadata-value disclosure
+PASS Leaving inspect-only mode retains the employee’s earlier unsaved draft
+PASS Batch preview stages and undoes sparse edits without losing earlier drafts
+PASS Batch copy saves pass native content checks and preserve both original files exactly
+PASS Workspace overview reflects actual saves and filters findings without renderer exceptions
+PASS The --inspect-only launcher profile cannot be relaxed through renderer IPC
+11 enterprise Electron/native workflow checks passed. Real Linux Electron; Windows execution is not claimed.

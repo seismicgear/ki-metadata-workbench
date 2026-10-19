@@ -1,0 +1,122 @@
+{
+  "version": "0.4.0",
+  "tool": "resedit 3.1.0",
+  "source_sha256": "c99a56d653220a8bf209b0b9ae2424ec1f1580946d1bf3395a968eb211a4f1b5",
+  "output_sha256": "da75adf4d5e6cf861169213ff6a298ea650010e39542c2f4a03046becba86189",
+  "non_resource_sections_unchanged": true,
+  "overlay_unchanged": true,
+  "sections_verified": [
+    {
+      "name": ".text",
+      "virtualAddress": 4096,
+      "virtualSize": 193196083,
+      "characteristics": 1610612768,
+      "sha256": "ab21c95bf51ed0744dcbfc338715e81953c43b04d5c4f1fe75e732bd5836363c"
+    },
+    {
+      "name": ".rdata",
+      "virtualAddress": 193204224,
+      "virtualSize": 45667664,
+      "characteristics": 1073741888,
+      "sha256": "6a8ae46b32001ae16fd400121c18eca5c53a232ae0ed1b5b57d254fc5485f0f7"
+    },
+    {
+      "name": ".data",
+      "virtualAddress": 238874624,
+      "virtualSize": 2766112,
+      "characteristics": 3221225536,
+      "sha256": "ef729328c90e94e317b68ef4cb77f3883f1c03439960bd4578af890df55caa04"
+    },
+    {
+      "name": ".pdata",
+      "virtualAddress": 241643520,
+      "virtualSize": 5590032,
+      "characteristics": 1073741888,
+      "sha256": "34e19503db281b5dc37a2add511b10d7fec6233a7b8ccc1f49d9a9c9ed89f0b4"
+    },
+    {
+      "name": ".eh_fram",
+      "virtualAddress": 247234560,
+      "virtualSize": 120,
+      "characteristics": 1073741888,
+      "sha256": "b713a160622b4b90420d5889ec7b7276439ab897232cb0cb1168299a0e141466"
+    },
+    {
+      "name": ".fptable",
+      "virtualAddress": 247238656,
+      "virtualSize": 256,
+      "characteristics": 3221225536,
+      "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560"
+    },
+    {
+      "name": ".rodata",
+      "virtualAddress": 247242752,
+      "virtualSize": 4544,
+      "characteristics": 1610612768,
+      "sha256": "2dcd8b731329ed4cab9acd2952fa2bdd62aeab401e6e1612339bbe4da8af358e"
+    },
+    {
+      "name": ".tls",
+      "virtualAddress": 247250944,
+      "virtualSize": 2138,
+      "characteristics": 3221225536,
+      "sha256": "7c8785d40b7567127e7441468de82dc08865f1cc1b5213e62d6fffa38cd562ba"
+    },
+    {
+      "name": "CPADinfo",
+      "virtualAddress": 247255040,
+      "virtualSize": 56,
+      "characteristics": 3221225536,
+      "sha256": "911d1a12eca8935990172cfcd6768f9c6351ed94b700833b2cf0cf457a1d752d"
+    },
+    {
+      "name": "LZMADEC",
+      "virtualAddress": 247259136,
+      "virtualSize": 4593,
+      "characteristics": 1610612768,
+      "sha256": "caf8ae633e0f04bd3d5bd49c4b30a5ab0bde47e1d3b1a3540d65dea6223c9329"
+    },
+    {
+      "name": "_RDATA",
+      "virtualAddress": 247267328,
+      "virtualSize": 500,
+      "characteristics": 1073741888,
+      "sha256": "7d56c39800de7699b4b203ae78acd87aad2386ba32afa8ea4c4c2d094abbd5d3"
+    },
+    {
+      "name": "malloc_h",
+      "virtualAddress": 247271424,
+      "virtualSize": 1931,
+      "characteristics": 1610612768,
+      "sha256": "9b5a74b3779a6b048185fc48c4c2d002c90af4620fa5a43869278228c48b0b6a"
+    },
+    {
+      "name": "prot",
+      "virtualAddress": 247275520,
+      "virtualSize": 179,
+      "characteristics": 1073741888,
+      "sha256": "076a27c79e5ace2a3d47f9dd2e83e4ff6ea8872b3c2218f66c92b89b55f36560"
+    },
+    {
+      "name": ".reloc",
+      "virtualAddress": 247382016,
+      "virtualSize": 1227056,
+      "characteristics": 1107296320,
+      "sha256": "1e4662e229ee84dde8a8403ba7bfc38bc0a025c04e0c6416f0831b29f885466b"
+    }
+  ],
+  "version_resources": [
+    {
+      "CompanyName": "Kuykendall Industries",
+      "FileDescription": "KI Metadata Workbench",
+      "FileVersion": "0.4.0.0",
+      "InternalName": "ki-metadata-workbench",
+      "LegalCopyright": "Kuykendall Industries",
+      "OriginalFilename": "KI Metadata Workbench.exe",
+      "ProductName": "KI Metadata Workbench",
+      "ProductVersion": "0.4.0.0",
+      "SquirrelAwareVersion": "1"
+    }
+  ],
+  "signed": false
+}

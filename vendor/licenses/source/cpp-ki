@@ -1,0 +1,2 @@
+#!/bin/sh
+exec "/workspace/scratch/3b0d1facb3ff/build-tools/mingw/usr/bin/x86_64-w64-mingw32-gcc-posix" -E -xc -DRC_INVOKED "$@"

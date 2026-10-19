@@ -1,0 +1,24 @@
+PASS Branded welcome screen, local fonts and clearly labeled preview
+PASS Seven synthetic media, document and archive samples load
+PASS Audio excludes the strict image policy
+PASS Presets stage supported semantic fields
+PASS Live draft changes stay text and do not execute markup
+PASS Advanced raw-field edits stay staged
+PASS Audit exposes the verification scope
+PASS Preview cannot report a real save or verification
+PASS Sharing stages strict image cleanup and explains real appearance effects
+PASS Source metadata counts never masquerade as output verification
+PASS Undo restores the editable source state
+PASS WebP offers qualified stripping without invented descriptive editors
+PASS Document cleanup clears the property baseline and replaces prior private drafts
+PASS Preset creation includes only explicitly selected fields
+PASS Preset exchange controls are present and preview writes remain disabled
+PASS Unknown and archive formats have an honest inspection-only flow
+PASS Mixed batches clean eligible files, report skips and offer neutral filenames
+PASS Keyboard command menu opens format guidance
+PASS Density and reduced-motion preferences take effect
+PASS Preview history remains empty rather than fabricated
+PASS Video stream scope and remux acknowledgment remain explicit
+PASS Comfortable and compact layouts fit smaller desktop windows
+PASS No uncaught renderer exceptions
+23 synthetic browser checks passed.

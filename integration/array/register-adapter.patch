@@ -1,0 +1,22 @@
+--- a/apps/desktop/core/adapters.mjs
++++ b/apps/desktop/core/adapters.mjs
+@@ -1,4 +1,5 @@
+ import fs from "node:fs/promises";
++import { registerMetadataAdapter } from "./metadata-product.mjs";
+ import path from "node:path";
+ import { execFile, spawn } from "node:child_process";
+ import { promisify } from "node:util";
+@@ -606,11 +607,12 @@
+     ...nativeSystem(overrides.platform ?? process.platform),
+     ...overrides,
+   };
+-  return Object.fromEntries(
++  const adapters = Object.fromEntries(
+     Object.values(NATIVE_PRODUCTS).map((identity) => [
+       identity.id,
+       createNativeAdapter(identity, system),
+     ]),
+   );
++  return registerMetadataAdapter(adapters, system, createNativeAdapter);
+ }
+ 

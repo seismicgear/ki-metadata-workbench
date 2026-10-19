@@ -1,0 +1,251 @@
+PASS Native document and extended metadata engines are available
+PASS PDF Unicode edits synchronize Info and mapped XMP properties
+PASS PDF cleanup rewrites metadata and historical orphan objects while preserving document content
+PASS Cleanup journal omits removed properties and records save time
+PASS Malformed or DTD-bearing PDF metadata remains removable
+PASS Nested PDF signature structures make the document inspection-only
+PASS DOCX property edit/cleanup preserves every content part
+PASS DOCM property edit/cleanup preserves every content part
+PASS DOTX property edit/cleanup preserves every content part
+PASS DOTM property edit/cleanup preserves every content part
+PASS XLSX property edit/cleanup preserves every content part
+PASS XLSM property edit/cleanup preserves every content part
+PASS XLTX property edit/cleanup preserves every content part
+PASS XLTM property edit/cleanup preserves every content part
+PASS PPTX property edit/cleanup preserves every content part
+PASS PPTM property edit/cleanup preserves every content part
+PASS POTX property edit/cleanup preserves every content part
+PASS POTM property edit/cleanup preserves every content part
+PASS PPSX property edit/cleanup preserves every content part
+PASS PPSM property edit/cleanup preserves every content part
+PASS ODT property edit/cleanup preserves every content part
+PASS ODS property edit/cleanup preserves every content part
+PASS ODP property edit/cleanup preserves every content part
+PASS ODG property edit/cleanup preserves every content part
+PASS ODF property edit/cleanup preserves every content part
+PASS OTT property edit/cleanup preserves every content part
+PASS OTS property edit/cleanup preserves every content part
+PASS OTP property edit/cleanup preserves every content part
+PASS OTG property edit/cleanup preserves every content part
+PASS Signed Office packages and DTD-bearing properties are inspection-only
+PASS Arbitrary files can be inspected and cannot reach an unsupported writer
+PASS Media probing rejects a playlist disguised as a video file
+PASS GIF.gif round-trips supported XMP with truthful verification
+PASS Photoshop.psd round-trips supported XMP with truthful verification
+PASS ExifTool.tif round-trips supported XMP with truthful verification
+PASS DNG.dng round-trips supported XMP with truthful verification
+PASS CanonRaw.cr2 round-trips supported XMP with truthful verification
+PASS CanonRaw.cr3 round-trips supported XMP with truthful verification
+PASS Panasonic.rw2 round-trips supported XMP with truthful verification
+PASS SigmaDP2.x3f round-trips supported XMP with truthful verification
+PASS PhaseOne.iiq round-trips supported XMP with truthful verification
+PASS QuickTime.heic round-trips supported XMP with truthful verification
+PASS JXL.jxl round-trips supported XMP with truthful verification
+PASS JXL2.jxl round-trips supported XMP with truthful verification
+PASS Jpeg2000.jp2 round-trips supported XMP with truthful verification
+PASS Minolta.mrw round-trips supported XMP with truthful verification
+PASS FujiFilm.raf round-trips supported XMP with truthful verification
+PASS Older X3F is inspection-only and an undersized NEF fixture cannot be rewritten
+PASS Extended-image dates and keyword lists round-trip naturally
+{
+  "checks": 49,
+  "upstream_images": true,
+  "results": [
+    {
+      "name": "Native document and extended metadata engines are available",
+      "passed": true
+    },
+    {
+      "name": "PDF Unicode edits synchronize Info and mapped XMP properties",
+      "passed": true
+    },
+    {
+      "name": "PDF cleanup rewrites metadata and historical orphan objects while preserving document content",
+      "passed": true
+    },
+    {
+      "name": "Cleanup journal omits removed properties and records save time",
+      "passed": true
+    },
+    {
+      "name": "Malformed or DTD-bearing PDF metadata remains removable",
+      "passed": true
+    },
+    {
+      "name": "Nested PDF signature structures make the document inspection-only",
+      "passed": true
+    },
+    {
+      "name": "DOCX property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "DOCM property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "DOTX property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "DOTM property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "XLSX property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "XLSM property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "XLTX property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "XLTM property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "PPTX property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "PPTM property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "POTX property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "POTM property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "PPSX property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "PPSM property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "ODT property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "ODS property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "ODP property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "ODG property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "ODF property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "OTT property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "OTS property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "OTP property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "OTG property edit/cleanup preserves every content part",
+      "passed": true
+    },
+    {
+      "name": "Signed Office packages and DTD-bearing properties are inspection-only",
+      "passed": true
+    },
+    {
+      "name": "Arbitrary files can be inspected and cannot reach an unsupported writer",
+      "passed": true
+    },
+    {
+      "name": "Media probing rejects a playlist disguised as a video file",
+      "passed": true
+    },
+    {
+      "name": "GIF.gif round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "Photoshop.psd round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "ExifTool.tif round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "DNG.dng round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "CanonRaw.cr2 round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "CanonRaw.cr3 round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "Panasonic.rw2 round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "SigmaDP2.x3f round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "PhaseOne.iiq round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "QuickTime.heic round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "JXL.jxl round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "JXL2.jxl round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "Jpeg2000.jp2 round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "Minolta.mrw round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "FujiFilm.raf round-trips supported XMP with truthful verification",
+      "passed": true
+    },
+    {
+      "name": "Older X3F is inspection-only and an undersized NEF fixture cannot be rewritten",
+      "passed": true
+    },
+    {
+      "name": "Extended-image dates and keyword lists round-trip naturally",
+      "passed": true
+    }
+  ]
+}

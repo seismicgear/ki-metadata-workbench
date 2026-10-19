@@ -1,0 +1,50 @@
+{
+  "schema": "industries.kuykendall.metadata.release-artifacts",
+  "schema_version": 1,
+  "product": "metadata",
+  "version": "0.4.0",
+  "platform": "win32",
+  "arch": "x64",
+  "status": "unsigned-build-candidate-not-published",
+  "artifacts": [
+    {
+      "kind": "portable",
+      "filename": "KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe",
+      "bytes": 138303966,
+      "sha256": "f8d6ad9e5f5ed297f9683bd7e333f9533757e1c636bc3ca23b7b75bffd8c2583",
+      "unsigned": true,
+      "outer_nsis_integrity": "passed",
+      "nested_7z_integrity": "passed",
+      "every_payload_file_matches_staged_runtime": true,
+      "nested_payload_archive_sha256": "9cb71d217cbd65e1dbc0f5efe3bd242fbf9ebddabca240cf42133e838d9162c8"
+    },
+    {
+      "kind": "nsis",
+      "filename": "KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe",
+      "bytes": 138523386,
+      "sha256": "ed42972e11698a43f4b98730d55c7f919734c88e1f919c039893bb3c56e370d4",
+      "unsigned": true,
+      "outer_nsis_integrity": "passed",
+      "nested_7z_integrity": "passed",
+      "every_payload_file_matches_staged_runtime": true,
+      "nested_payload_archive_sha256": "9cb71d217cbd65e1dbc0f5efe3bd242fbf9ebddabca240cf42133e838d9162c8"
+    }
+  ],
+  "installed_executable": {
+    "filename": "KI Metadata Workbench.exe",
+    "product_name": "KI Metadata Workbench",
+    "native_id": "industries.kuykendall.metadata",
+    "bytes": 247184896,
+    "sha256": "da75adf4d5e6cf861169213ff6a298ea650010e39542c2f4a03046becba86189"
+  },
+  "release_publication_requires": [
+    "Windows acceptance on a clean employee account",
+    "Authenticode signing and configured product publisher trust",
+    "Recalculate artifact and executable SHA-256 after signing",
+    "Approved HTTPS artifact hosting",
+    "Ed25519 signed Array release envelope with current hashes",
+    "Canonical Store free-utility contract and catalog record",
+    "Array adapter registration"
+  ],
+  "note": "This inventory is not an authenticated Array release envelope. No release URL, publisher pin, signature, catalog entry or installation is fabricated."
+}

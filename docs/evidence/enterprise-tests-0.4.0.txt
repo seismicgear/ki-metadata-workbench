@@ -1,0 +1,12 @@
+PASS Full-file SHA-256 matches an independent Node implementation for an unknown file
+PASS Disguised executable is inspectable with all writers disabled
+PASS Malformed files retain read-only inventory while the legacy strict inspection API still rejects them
+PASS Signature mismatch is rejected by the native save gate before output creation
+PASS The native inspection-only environment policy blocks write commands before parsing their source
+PASS JSONL scan deduplicates inputs and omits names, paths and tag values by default
+PASS Full inspection and path disclosure are separate explicit CLI options
+PASS Recursive scanning skips hidden directories and links and requires explicit folder recursion
+PASS Partial CLI failures preserve valid JSONL rows and return a nonzero exit status
+PASS Inspection and scans do not modify sources or create persistent application journals
+PASS CLI help documents the inventory options and reports the actual release version
+11 enterprise/native integration checks passed.

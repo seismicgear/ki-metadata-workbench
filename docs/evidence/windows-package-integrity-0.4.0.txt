@@ -1,0 +1,185 @@
+KI Metadata Workbench 0.4.0: complete portable and installer payload verification
+
+7-Zip (z) 24.09 (x64) : Copyright (c) 1999-2024 Igor Pavlov : 2024-11-28
+ 64-bit locale=C.UTF-8 Threads:9 OPEN_MAX:16384, ASM
+
+Scanning the drive for archives:
+1 file, 138303966 bytes (132 MiB)
+
+Testing archive: /workspace/scratch/3b0d1facb3ff/ki-metadata-workbench/release/KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe
+--
+Path = /workspace/scratch/3b0d1facb3ff/ki-metadata-workbench/release/KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe
+Type = Nsis
+Physical Size = 138303966
+Method = Deflate
+Solid = -
+Headers Size = 38528
+Embedded Stub Size = 50176
+SubType = NSIS-3 Unicode BadCmd=13
+
+Everything is Ok
+
+Files: 4
+Size:       137953705
+Compressed: 138303966
+
+7-Zip (z) 24.09 (x64) : Copyright (c) 1999-2024 Igor Pavlov : 2024-11-28
+ 64-bit locale=C.UTF-8 Threads:9 OPEN_MAX:16384, ASM
+
+Scanning the drive for archives:
+1 file, 138303966 bytes (132 MiB)
+
+Extracting archive: /workspace/scratch/3b0d1facb3ff/ki-metadata-workbench/release/KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe
+--
+Path = /workspace/scratch/3b0d1facb3ff/ki-metadata-workbench/release/KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe
+Type = Nsis
+Physical Size = 138303966
+Method = Deflate
+Solid = -
+Headers Size = 38528
+Embedded Stub Size = 50176
+SubType = NSIS-3 Unicode BadCmd=13
+
+Everything is Ok
+
+Files: 4
+Size:       138502569
+Compressed: 138303966
+
+7-Zip (z) 24.09 (x64) : Copyright (c) 1999-2024 Igor Pavlov : 2024-11-28
+ 64-bit locale=C.UTF-8 Threads:9 OPEN_MAX:16384, ASM
+
+Scanning the drive for archives:
+1 file, 137953705 bytes (132 MiB)
+
+Testing archive: /workspace/scratch/3b0d1facb3ff/build-tools/windows-040-8lpkl3tg/portable/outer/$PLUGINSDIR/app-64.7z
+--
+Path = /workspace/scratch/3b0d1facb3ff/build-tools/windows-040-8lpkl3tg/portable/outer/$PLUGINSDIR/app-64.7z
+Type = 7z
+Physical Size = 137953705
+Headers Size = 10660
+Method = LZMA2:28 LZMA:20 BCJ2
+Solid = +
+Blocks = 2
+
+Everything is Ok
+
+Folders: 224
+Files: 799
+Size:       610669153
+Compressed: 137953705
+
+7-Zip (z) 24.09 (x64) : Copyright (c) 1999-2024 Igor Pavlov : 2024-11-28
+ 64-bit locale=C.UTF-8 Threads:9 OPEN_MAX:16384, ASM
+
+Scanning the drive for archives:
+1 file, 137953705 bytes (132 MiB)
+
+Extracting archive: /workspace/scratch/3b0d1facb3ff/build-tools/windows-040-8lpkl3tg/portable/outer/$PLUGINSDIR/app-64.7z
+--
+Path = /workspace/scratch/3b0d1facb3ff/build-tools/windows-040-8lpkl3tg/portable/outer/$PLUGINSDIR/app-64.7z
+Type = 7z
+Physical Size = 137953705
+Headers Size = 10660
+Method = LZMA2:28 LZMA:20 BCJ2
+Solid = +
+Blocks = 2
+
+Everything is Ok
+
+Folders: 224
+Files: 799
+Size:       610669153
+Compressed: 137953705
+
+7-Zip (z) 24.09 (x64) : Copyright (c) 1999-2024 Igor Pavlov : 2024-11-28
+ 64-bit locale=C.UTF-8 Threads:9 OPEN_MAX:16384, ASM
+
+Scanning the drive for archives:
+1 file, 138523386 bytes (133 MiB)
+
+Testing archive: /workspace/scratch/3b0d1facb3ff/ki-metadata-workbench/release/KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe
+--
+Path = /workspace/scratch/3b0d1facb3ff/ki-metadata-workbench/release/KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe
+Type = Nsis
+Physical Size = 138523386
+Method = Deflate
+Solid = -
+Headers Size = 212768
+Embedded Stub Size = 58368
+SubType = NSIS-3 Unicode BadCmd=13
+
+Everything is Ok
+
+Files: 10
+Size:       137953705
+Compressed: 138523386
+
+7-Zip (z) 24.09 (x64) : Copyright (c) 1999-2024 Igor Pavlov : 2024-11-28
+ 64-bit locale=C.UTF-8 Threads:9 OPEN_MAX:16384, ASM
+
+Scanning the drive for archives:
+1 file, 138523386 bytes (133 MiB)
+
+Extracting archive: /workspace/scratch/3b0d1facb3ff/ki-metadata-workbench/release/KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe
+--
+Path = /workspace/scratch/3b0d1facb3ff/ki-metadata-workbench/release/KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe
+Type = Nsis
+Physical Size = 138523386
+Method = Deflate
+Solid = -
+Headers Size = 212768
+Embedded Stub Size = 58368
+SubType = NSIS-3 Unicode BadCmd=13
+
+Everything is Ok
+
+Files: 10
+Size:       138862049
+Compressed: 138523386
+
+7-Zip (z) 24.09 (x64) : Copyright (c) 1999-2024 Igor Pavlov : 2024-11-28
+ 64-bit locale=C.UTF-8 Threads:9 OPEN_MAX:16384, ASM
+
+Scanning the drive for archives:
+1 file, 137953705 bytes (132 MiB)
+
+Testing archive: /workspace/scratch/3b0d1facb3ff/build-tools/windows-040-8lpkl3tg/nsis/outer/$PLUGINSDIR/app-64.7z
+--
+Path = /workspace/scratch/3b0d1facb3ff/build-tools/windows-040-8lpkl3tg/nsis/outer/$PLUGINSDIR/app-64.7z
+Type = 7z
+Physical Size = 137953705
+Headers Size = 10660
+Method = LZMA2:28 LZMA:20 BCJ2
+Solid = +
+Blocks = 2
+
+Everything is Ok
+
+Folders: 224
+Files: 799
+Size:       610669153
+Compressed: 137953705
+
+7-Zip (z) 24.09 (x64) : Copyright (c) 1999-2024 Igor Pavlov : 2024-11-28
+ 64-bit locale=C.UTF-8 Threads:9 OPEN_MAX:16384, ASM
+
+Scanning the drive for archives:
+1 file, 137953705 bytes (132 MiB)
+
+Extracting archive: /workspace/scratch/3b0d1facb3ff/build-tools/windows-040-8lpkl3tg/nsis/outer/$PLUGINSDIR/app-64.7z
+--
+Path = /workspace/scratch/3b0d1facb3ff/build-tools/windows-040-8lpkl3tg/nsis/outer/$PLUGINSDIR/app-64.7z
+Type = 7z
+Physical Size = 137953705
+Headers Size = 10660
+Method = LZMA2:28 LZMA:20 BCJ2
+Solid = +
+Blocks = 2
+
+Everything is Ok
+
+Folders: 224
+Files: 799
+Size:       610669153
+Compressed: 137953705
