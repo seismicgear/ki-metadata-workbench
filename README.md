@@ -12,17 +12,37 @@ A free, standalone file utility by **Kuykendall Industries**. Prepared for the A
 
 [GitHub Releases](https://github.com/seismicgear/ki-metadata-workbench/releases/tag/v0.4.0) · [Build and qualification](https://github.com/seismicgear/ki-metadata-workbench/actions/workflows/windows-release.yml)
 
-GitHub packages are built and tested by the Windows release workflow. The attached release checksums and build provenance identify those downloads; historical local-build evidence remains in the source. See [GitHub packaging](docs/GITHUB_RELEASES.md).
+GitHub release candidates are built and tested on Windows and Ubuntu 24.04 x64. Both platform jobs must pass before the release is published. The attached checksums and build provenance identify the exact downloads and source commit. See [GitHub packaging](docs/GITHUB_RELEASES.md).
 
 | Download | Use it for |
 |---|---|
 | [KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.0/KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe) | Open the utility without an installer. |
 | [KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.0/KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe) | Install for the current Windows user, choose an installation folder, and create shortcuts. This is the package intended for Array distribution. |
+| [KI-Metadata-Workbench-0.4.0-Linux-x64.deb](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.0/KI-Metadata-Workbench-0.4.0-Linux-x64.deb) | Install on Ubuntu 24.04 or a compatible x64 Debian-based system; runtime dependencies are installed by the package manager. |
+| [KI-Metadata-Workbench-0.4.0-Linux-x64.AppImage](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.0/KI-Metadata-Workbench-0.4.0-Linux-x64.AppImage) | Run on a compatible x64 Linux desktop with glibc 2.39 or later, Perl and the Brotli Perl module. |
 | [KI-Metadata-Workbench-0.4.0-Source.zip](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.0/KI-Metadata-Workbench-0.4.0-Source.zip) | Complete source, tests, Windows native engine, vendor tools, licenses and Array handoff. |
 
-Both Windows x64 downloads include Electron, the Rust metadata engine, ExifTool, FFmpeg and ffprobe. Employees need no development tools, separate media-tool installation, account or license activation. Processing stays on their computer. The app also runs independently of Array.
+All desktop downloads include Electron, the platform's Rust metadata engine, ExifTool, FFmpeg and ffprobe. Windows packages include their Perl runtime; Linux uses the system Perl interpreter and Brotli module. Employees need no development tools, separate FFmpeg/ExifTool installation, account or license activation. Processing stays on their computer. The app also runs independently of Array.
 
-GitHub downloads are **unsigned preview releases**. Publication requires the Windows workflow to rebuild and test the native engine, exercise the desktop workflows, verify the packaged payload, and pass installer, installed-app and uninstall checks. The release includes its checksums and Windows build evidence. [TEST_REPORT.md](docs/TEST_REPORT.md) preserves the original local qualification; [WINDOWS_ACCEPTANCE.md](docs/WINDOWS_ACCEPTANCE.md) remains the checklist for an employee-device pilot.
+GitHub downloads are **unsigned release candidates**. Publication requires both native platform builds, desktop workflows, packaged-payload verification and installer acceptance. The release includes a common checksum list, combined provenance and separate Windows/Linux evidence. [TEST_REPORT.md](docs/TEST_REPORT.md) preserves the original local qualification; [WINDOWS_ACCEPTANCE.md](docs/WINDOWS_ACCEPTANCE.md) remains the checklist for an employee-device pilot.
+
+### Linux installation
+
+On Ubuntu 24.04, install the downloaded Debian package with:
+
+```sh
+sudo apt install ./KI-Metadata-Workbench-0.4.0-Linux-x64.deb
+```
+
+For the AppImage, install its Perl prerequisites, make it executable, then launch it. Extraction mode also works on systems without FUSE:
+
+```sh
+sudo apt install perl libio-compress-brotli-perl
+chmod +x KI-Metadata-Workbench-0.4.0-Linux-x64.AppImage
+./KI-Metadata-Workbench-0.4.0-Linux-x64.AppImage --appimage-extract-and-run
+```
+
+The Linux candidate is qualified on Ubuntu 24.04 x64. Older glibc systems and ARM64 are not targets of this release. The Debian package is the recommended installation for Ubuntu desktops.
 
 ## The combined upgrade
 
@@ -77,7 +97,7 @@ The app does not remove visible content, pixel watermarks, sidecars, filesystem 
 
 ## Employees, IT and Array
 
-Distribute one Windows download through the normal internal software channel. Each employee uses their own OS account, files and local settings. A custom team preset pack is optional. There is no central account, enrollment service, runtime upload, telemetry or embedded update server.
+Distribute the appropriate Windows or Linux download through the normal internal software channel. Each employee uses their own OS account, files and local settings. A custom team preset pack is optional. There is no central account, enrollment service, runtime upload, telemetry or embedded update server.
 
 A locked inspection shortcut can target the installed application:
 
@@ -105,7 +125,7 @@ Default scan rows omit names, paths and metadata values; diagnostics on stderr c
 
 ## Source builds and qualification
 
-Employees use the EXE downloads. Developers use Node.js 22+, stable Rust and a platform linker. On Windows, rebuilding the core requires Rust MSVC, Visual Studio C++ Build Tools and a Windows SDK.
+Employees use the packaged downloads. Developers use Node.js 22+, stable Rust and a platform linker. On Windows, rebuilding the core requires Rust MSVC, Visual Studio C++ Build Tools and a Windows SDK.
 
 ```powershell
 npm ci
@@ -115,6 +135,8 @@ npm start
 npm run dist:portable
 npm run dist:win
 ```
+
+For Linux packages, install a C compiler, GNU make, Perl and the Brotli Perl module, then run `npm run dist:linux`. It rebuilds the bundled FFmpeg tools from the included source and produces the AppImage and Debian package. Match the Ubuntu 24.04 build environment for the published compatibility baseline. The release workflow records the full platform qualification.
 
 `Launch.cmd` can reuse the included Windows native engine and builds the UI before launch; Rust is needed only if the engine is absent or deliberately rebuilt. Initial dependency installation requires internet access. The pinned npm/Cargo lockfiles and complete Windows vendor/license tree are included. On other development platforms supply trusted ExifTool/FFmpeg/ffprobe with `KI_EXIFTOOL`, `KI_FFMPEG` and `KI_FFPROBE` or the app's tool settings.
 

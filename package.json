@@ -23,6 +23,8 @@
     "test": "npm run test:ui && npm run test:core && npm run build:core && npm run test:media && npm run test:privacy && npm run test:expanded && npm run test:enterprise",
     "dist:win": "npm run build && electron-builder --win nsis --x64 --publish never",
     "dist:portable": "npm run build && electron-builder --win portable --x64 --publish never",
+    "build:linux-tools": "python3 scripts/prepare-linux-tools.py",
+    "dist:linux": "npm run build:linux-tools && npm run build && electron-builder --config build/linux.cjs --linux AppImage deb --x64 --publish never",
     "build:preview": "npm run build:ui && node scripts/build-preview.mjs",
     "test:ffmpeg": "node tests/media.integration.mjs --ffmpeg-only",
     "test:browser": "npm run build:preview && node tests/browser.preview.test.mjs",

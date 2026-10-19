@@ -1,4 +1,4 @@
-// Windows acceptance against the installed application and its bundled engines.
+// Platform acceptance against the installed application and its bundled engines.
 import {_electron} from 'playwright';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {deflateSync} from 'node:zlib';
 
-assert.equal(process.platform, 'win32', 'This acceptance test requires actual Windows.');
+assert.ok(['win32', 'linux'].includes(process.platform), 'This acceptance test requires Windows or Linux.');
 assert.ok(process.env.KI_PACKAGED_EXE, 'Set KI_PACKAGED_EXE to the installed application.');
 const executablePath = await fs.realpath(process.env.KI_PACKAGED_EXE);
 const pkg = JSON.parse(await fs.readFile('package.json', 'utf8'));
@@ -105,13 +105,13 @@ try {
   assert.deepEqual(await fs.readFile(source), original);
   pass('Installed IPC rejects unlock, save and restore operations in the locked profile');
   await fs.mkdir('release/ci-evidence', {recursive: true});
-  await fs.writeFile('release/ci-evidence/packaged-desktop.json', JSON.stringify({
+  await fs.writeFile(process.env.KI_PACKAGED_EVIDENCE || 'release/ci-evidence/packaged-desktop.json', JSON.stringify({
     version: pkg.version, platform: process.platform, arch: process.arch,
     installed_executable_sha256: sha256(await fs.readFile(executablePath)),
     commit: process.env.GITHUB_SHA || null, checks, passed: checks.length,
     actual_packaged_electron: true, picker_responses_automated: true,
   }, null, 2) + '\n');
-  console.log(`${checks.length} installed Windows desktop acceptance checks passed.`);
+  console.log(`${checks.length} installed ${process.platform} desktop acceptance checks passed.`);
 } finally {
   if (app) await app.close();
   await fs.rm(root, {recursive: true, force: true});
