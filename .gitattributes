@@ -1,1 +1,6 @@
 * -text
+
+# Show the application languages without counting bundled or generated code.
+vendor/** linguist-vendored=true
+dist/** linguist-generated=true
+KI-Metadata-Workbench-Preview.html linguist-generated=true

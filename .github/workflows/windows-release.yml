@@ -76,7 +76,7 @@ jobs:
         run: |
           npm run build:preview
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          npx --no-install electron-builder --win nsis portable --x64
+          npx --no-install electron-builder --win nsis portable --x64 --publish never
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Install, launch and uninstall the packaged application
         run: ./scripts/verify-windows-install.ps1

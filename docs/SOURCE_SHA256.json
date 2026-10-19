@@ -1,7 +1,7 @@
 {
   ".cargo/config.toml": "bd4593665ad4596af2bd00570704f61bf3734dc531b082a752aa720bf9da2d8e",
-  ".gitattributes": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da",
-  ".github/workflows/windows-release.yml": "6da33682e579de4413adff3de9c094c220cc6f5efa0efcca9fe013b8061e356f",
+  ".gitattributes": "7070170e74d02bac5eaae1256f4af7d297c8a29a7756997f897a8bf6f55387c1",
+  ".github/workflows/windows-release.yml": "9b75dcf9b90a6f527f7946dfa02146887e29c30fda7093f3b49015015fc56109",
   ".gitignore": "b84b07b4d1cdaf0dfd9c7b3f527e9d4a72b833fffd92317603b2e5e1fe48997a",
   "Build-Windows.cmd": "53df7c333e2ff6cc0f7795ddcd6fbbaae49eb351a9bce1b134f20185ef9d37a0",
   "KI-Metadata-Workbench-Preview.html": "f78198a59a26afa0bac10c25c291040c1caf84438e5d531783f46a76380e5e7d",
@@ -114,7 +114,7 @@
   "native/src/xmp.rs": "7a59c0777a70a1299e8323ad58cf8dcdb5d7d872510887e40f352c9b43e27348",
   "native/target/release/ki-meta.exe": "96daf657cbe1652a4afd79e2ad73b202ac47427d839b6a2c9281293aadf1355a",
   "package-lock.json": "a35e8fcc19c8d0dbd34618e608ef678623c675ea43c1e60e376101b461918fd0",
-  "package.json": "5ebdac6263712a590c373c037ac5e138649cf52fa4114672c7ae5acba18e1892",
+  "package.json": "e4f9a2d5fccfa535a9d91dc90a6f798a6459a9708f4ccc6b9542442370c7e6eb",
   "scripts/brand-windows.mjs": "2c1d4dc8e8e65f83fbe72b5d27bf59f755cc156b9f7d7554240594a9af1832e2",
   "scripts/build-icon.mjs": "1597dd85e719c7b351ae79aeed1115be7d247277ce1776806bbd4105e9074cc8",
   "scripts/build-preview.mjs": "2234b45f964278a6ba7f997c564423519c168a0e9c313ef3227da05e5b1e74ac",
