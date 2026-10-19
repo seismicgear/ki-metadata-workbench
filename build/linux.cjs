@@ -15,7 +15,8 @@ module.exports = {
     executableName: 'ki-metadata-workbench',
     icon: 'assets/metadata-icon.png',
     category: 'Utility',
-    artifactName: 'KI-Metadata-Workbench-${version}-Linux-${arch}.${ext}',
+    // Target-specific arch macros become amd64 or x86_64; the release uses x64.
+    artifactName: 'KI-Metadata-Workbench-${version}-Linux-x64.${ext}',
     desktop: {entry: {StartupWMClass: 'ki-metadata-workbench'}},
   },
   deb: {
