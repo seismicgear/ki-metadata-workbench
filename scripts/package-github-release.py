@@ -5,6 +5,7 @@ import json
 import os
 import re
 import shutil
+import struct
 import subprocess
 import sys
 import zipfile
@@ -25,6 +26,38 @@ commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(
 assert install['commit'] == desktop['commit'] == os.environ['GITHUB_SHA'] == commit
 runtime = json.loads(subprocess.check_output(['node', 'scripts/verify-runtime.cjs'], text=True))
 assert runtime['installed_executable']['sha256'] == desktop['installed_executable_sha256']
+
+def native_imports(file):
+    """Read PE32+ import names to reject an accidental VC redistributable dependency."""
+    data = file.read_bytes()
+    assert data[:2] == b'MZ'
+    pe = struct.unpack_from('<I', data, 0x3c)[0]
+    assert data[pe:pe + 4] == b'PE\0\0'
+    optional = pe + 24
+    assert struct.unpack_from('<H', data, optional)[0] == 0x20b, 'Expected an x64 native engine'
+    count = struct.unpack_from('<H', data, pe + 6)[0]
+    sections = optional + struct.unpack_from('<H', data, pe + 20)[0]
+    def offset(rva):
+        for index in range(count):
+            size, address, raw_size, raw = struct.unpack_from('<IIII', data, sections + index * 40 + 8)
+            if address <= rva < address + max(size, raw_size):
+                return raw + rva - address
+        raise AssertionError('Unmapped PE address')
+    cursor = offset(struct.unpack_from('<I', data, optional + 112 + 8)[0])
+    names = []
+    for _ in range(256):
+        descriptor = struct.unpack_from('<IIIII', data, cursor)
+        if not any(descriptor):
+            return names
+        start = offset(descriptor[3])
+        names.append(data[start:data.index(b'\0', start)].decode('ascii'))
+        cursor += 20
+    raise AssertionError('Unterminated PE imports')
+
+imports = native_imports(ROOT / 'release/win-unpacked/resources/bin/ki-meta.exe')
+assert imports and not any(re.match(r'(?i)^(vcruntime|msvcp|concrt|ucrtbased)', name) for name in imports), imports
+runtime['native_imports'] = imports
+runtime['native_vc_redistributable_required'] = False
 (evidence_dir / 'runtime-integrity.json').write_text(json.dumps(runtime, indent=2) + '\n', encoding='utf-8')
 
 def sha256(file):
@@ -87,6 +120,7 @@ provenance = {
     'version': version, 'repository': os.environ['GITHUB_REPOSITORY'], 'commit': commit,
     'run_url': run_url, 'release_url': release_url, 'runner_os': os.environ['RUNNER_OS'],
     'unsigned': True, 'native_core_sha256': runtime['native_core_sha256'],
+    'native_imports': imports, 'native_vc_redistributable_required': False,
     'installed_executable': runtime['installed_executable'],
     'artifacts': [*artifacts, {'kind': 'source', **entry(source_zip)}],
     'source_files': len(payload), 'source_manifest_entries': len(manifest),
@@ -99,3 +133,4 @@ provenance = {
 sums = ''.join(f'{sha256(file)}  {file.name}\n' for file in sorted(destination.iterdir()))
 (destination / 'SHA256SUMS.txt').write_text(sums, encoding='utf-8', newline='\n')
 print(f'Packaged {len(payload)} source files and {len(artifacts)} Windows downloads; all source and runtime integrity checks passed.')
+print(sums, end='')

@@ -1,6 +1,6 @@
 use anyhow::{bail, Context, Result};
 use serde_json::{json, Value};
-use std::{io::Read, path::Path, process::{Command, Stdio}, thread, time::Duration};
+use std::{io::{Read, Write}, path::Path, process::{Command, Stdio}, thread, time::Duration};
 use wait_timeout::ChildExt;
 
 pub fn executable(name: &str) -> String {
@@ -31,12 +31,27 @@ fn read_bounded(mut reader: impl Read, maximum: u64) -> (Vec<u8>, bool) {
 }
 pub fn run(name: &str, args: &[String], timeout: u64) -> Result<Vec<u8>> {
     let mut command = Command::new(executable(name));
-    command.args(args).stdin(Stdio::null()).stdout(Stdio::piped()).stderr(Stdio::piped());
+    // Windows Perl receives command-line text through a legacy code page.
+    // Pipe UTF-8 arguments instead, without putting employee metadata in a
+    // temporary argument file. CSTR keeps newlines and backslashes inside one
+    // argument; values cannot introduce a second ExifTool option.
+    let input = if cfg!(windows) && name == "exiftool" {
+        if args.first().map(String::as_str) != Some("-config") || args.get(1).map(String::as_str) != Some("") {
+            bail!("ExifTool calls must disable user configuration");
+        }
+        command.args(["-config", "", "-charset", "UTF8", "-charset", "filename=UTF8", "-@", "-"]);
+        Some(exiftool_argfile(&args[2..])?)
+    } else { command.args(args); None };
+    command.stdin(if input.is_some() {Stdio::piped()} else {Stdio::null()}).stdout(Stdio::piped()).stderr(Stdio::piped());
     #[cfg(windows)] {
         use std::os::windows::process::CommandExt;
         command.creation_flags(0x08000000); // CREATE_NO_WINDOW, no shell involved.
     }
     let mut child = command.spawn().with_context(|| format!("{name} is unavailable. Configure its executable in Tools, or add it to PATH."))?;
+    let input_thread = input.map(|bytes| {
+        let mut stdin = child.stdin.take().expect("Piped tool stdin");
+        thread::spawn(move || stdin.write_all(&bytes))
+    });
     let out = child.stdout.take().context("Missing stdout pipe")?;
     let err = child.stderr.take().context("Missing stderr pipe")?;
     let stdout_thread = thread::spawn(move || read_bounded(out, 16 * 1024 * 1024));
@@ -45,10 +60,31 @@ pub fn run(name: &str, args: &[String], timeout: u64) -> Result<Vec<u8>> {
     if status.is_none() { let _ = child.kill(); let _ = child.wait(); }
     let (stdout, truncated) = stdout_thread.join().unwrap_or_default();
     let (stderr, _) = stderr_thread.join().unwrap_or_default();
+    let input_result = input_thread.map(|writer| writer.join());
     let status = status.context("Media tool timed out; the staged file was not committed")?;
     if !status.success() { bail!("{name} failed: {}", String::from_utf8_lossy(&stderr)); }
+    if let Some(result) = input_result { result.map_err(|_| anyhow::anyhow!("Tool argument writer failed"))??; }
     if truncated { bail!("{name} output exceeds the inspection limit"); }
     Ok(stdout)
+}
+fn exiftool_argfile(args: &[String]) -> Result<Vec<u8>> {
+    let mut input = String::new();
+    for arg in args {
+        if arg.contains('\0') { bail!("Tool arguments cannot contain a null byte"); }
+        input.push_str("#[CSTR]");
+        for ch in arg.chars() {
+            match ch {
+                '\\' => input.push_str("\\\\"),
+                '\n' => input.push_str("\\n"),
+                '\r' => input.push_str("\\r"),
+                '\t' => input.push_str("\\t"),
+                ch if ch.is_ascii_control() => input.push_str(&format!("\\x{:02x}", ch as u32)),
+                ch => input.push(ch),
+            }
+        }
+        input.push('\n');
+    }
+    Ok(input.into_bytes())
 }
 pub fn status(name: &str) -> Value {
     let args = if name == "exiftool" { vec!["-config".into(), "".into(), "-ver".into()] } else { vec!["-version".into()] };

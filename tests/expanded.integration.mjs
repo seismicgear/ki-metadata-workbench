@@ -54,6 +54,9 @@ try{
  }
  const old=await inspect(path.join(upstream,'Sigma.x3f'));assert.deepEqual(old.capabilities.policies,[]);await assert.rejects(save(path.join(upstream,'Nikon.nef'),patch({title:'x'}),path.join(root,'invalid.nef')),/Undersized|failed/i);pass('Older X3F is inspection-only and an undersized NEF fixture cannot be rewritten');
  const tiff=path.join(upstream,'ExifTool.tif');const values=await save(tiff,patch({date:'2026-10-18T12:34:56Z',keywords:'One;Two; 三'}),path.join(root,'values.tif'));assert.equal(values.after.fields.date,'2026-10-18T12:34:56Z');assert.equal(values.after.fields.keywords,'One; Two; 三');pass('Extended-image dates and keyword lists round-trip naturally');
+ const unicodeFolder=path.join(root,'Équipe 未来');fs.mkdirSync(unicodeFolder);const unicodeSource=path.join(unicodeFolder,'Снимок 三.tif');fs.copyFileSync(tiff,unicodeSource);const untouched=fs.readFileSync(unicodeSource);
+ const description='# Literal metadata\\folder\n-XMP-dc:Title=Must remain a description\n未来';const unicode=await save(unicodeSource,patch({title:'Δοκιμή – 未来',description}),path.join(unicodeFolder,'Copie 三.tif'));
+ assert.equal(unicode.after.fields.title,'Δοκιμή – 未来');assert.equal(unicode.after.fields.description,description);assert.equal(unicode.verification.status,'matched');assert.deepEqual(fs.readFileSync(unicodeSource),untouched);pass('Unicode paths and multiline metadata round-trip without turning values into tool options');
  }else console.log('UPSTREAM IMAGE FIXTURE CASES NOT RUN: set KI_EXIFTOOL_FIXTURES.');
  console.log(JSON.stringify({checks:count,upstream_images:!!upstream,results:evidence},null,2));
 }finally{bridge.close();fs.rmSync(root,{recursive:true,force:true});}

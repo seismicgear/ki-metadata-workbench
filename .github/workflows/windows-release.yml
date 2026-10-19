@@ -6,6 +6,7 @@ on:
     paths:
       - 'package*.json'
       - 'native/**'
+      - '.cargo/**'
       - 'src/**'
       - 'electron/**'
       - 'assets/**'
