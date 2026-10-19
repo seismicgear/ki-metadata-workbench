@@ -52,6 +52,7 @@ try {
   const win = await launch([source]);
   const identity = await app.evaluate(({app}) => ({packaged: app.isPackaged, version: app.getVersion(), name: app.getName()}));
   assert.deepEqual(identity, {packaged: true, version: pkg.version, name: pkg.productName});
+  const chromiumSandboxDisabled = await app.evaluate(({app}) => app.commandLine.hasSwitch('no-sandbox'));
   assert.equal(await win.evaluate(() => !!window.KI_PREVIEW), false);
   pass('The installed branded application launches as a real packaged desktop application');
   const doctor = await win.evaluate(() => window.ki.doctor());
@@ -110,6 +111,7 @@ try {
     installed_executable_sha256: sha256(await fs.readFile(executablePath)),
     commit: process.env.GITHUB_SHA || null, checks, passed: checks.length,
     actual_packaged_electron: true, picker_responses_automated: true,
+    chromium_sandbox_disabled: chromiumSandboxDisabled,
   }, null, 2) + '\n');
   console.log(`${checks.length} installed ${process.platform} desktop acceptance checks passed.`);
 } finally {

@@ -82,6 +82,7 @@ for record in [desktop, appimage_desktop]:
     assert record['version'] == version and record['passed'] >= 7 and len(record['checks']) == record['passed']
 assert installed['installed_executable']['sha256'] == appimage['installed_executable']['sha256'] == desktop['installed_executable_sha256']
 assert installed['native_core_sha256'] == appimage['native_core_sha256']
+assert desktop['chromium_sandbox_disabled'] is False, 'The installed Debian application must retain its sandbox'
 with Path(sys.argv[3]).open('rb') as stream:
     appimage_sha256 = hashlib.file_digest(stream, 'sha256').hexdigest()
 assert appimage_sha256 == appimage_desktop['installed_executable_sha256']
@@ -97,10 +98,11 @@ result = {
     'installed_executable': sys.argv[2], 'installed_desktop_checks': 'passed',
     'appimage_payload_verified': True, 'application_removed': True,
     'system_perl_and_brotli_verified': True, 'unsigned': True,
-    'apparmor_profile': os.environ['KI_ACCEPTANCE_APPARMOR'], 'desktop_sandbox_disabled': False,
+    'apparmor_profile': os.environ['KI_ACCEPTANCE_APPARMOR'], 'desktop_sandbox_disabled': desktop['chromium_sandbox_disabled'],
     'appimage_desktop_checks': 'passed', 'appimage_executable_sha256': appimage_sha256,
     'appimage_launch_mode': 'APPIMAGE_EXTRACT_AND_RUN=1',
-    'appimage_default_launch_arguments': ['--no-sandbox'], 'appimage_sandbox_disabled': True,
+    'appimage_default_launch_arguments': ['--no-sandbox'],
+    'appimage_sandbox_disabled': appimage_desktop['chromium_sandbox_disabled'],
 }
 (evidence / 'linux-install-acceptance.json').write_text(json.dumps(result, indent=2) + '\n')
 print('Linux .deb install, both packaged desktop workflows, AppImage contents and uninstall passed.')

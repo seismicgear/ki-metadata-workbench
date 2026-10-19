@@ -20,7 +20,7 @@ Both platform jobs must pass. `scripts/assemble-release.py` requires the exact e
 
 On Windows, use `Windows-x64-Setup.exe` for a per-user installation or `Windows-x64-Portable.exe` to run without installation. Both include their media tools and Perl runtime. The native MSVC engine statically links its C runtime.
 
-On Ubuntu 24.04, install the downloaded `.deb` with `sudo apt install ./KI-Metadata-Workbench-0.4.0-Linux-x64.deb`. This is the preferred Linux desktop installation. For the AppImage, install `perl` and `libio-compress-brotli-perl`, mark the file executable, and run it with `--appimage-extract-and-run` when FUSE is unavailable. The Debian package installs the desktop sandbox profile supplied by electron-builder; its standard AppImage AppRun launcher disables the Chromium sandbox, so prefer the Debian package for the sandboxed desktop installation.
+On Ubuntu 24.04, install the downloaded `.deb` with `sudo apt install ./KI-Metadata-Workbench-0.4.0-Linux-x64.deb`. This is the preferred Linux desktop installation. For the AppImage, install `perl` and `libio-compress-brotli-perl`, mark the file executable, and run it with `--appimage-extract-and-run` when FUSE is unavailable. The Debian package installs the desktop sandbox profile supplied by electron-builder. The AppImage desktop shortcut includes `--no-sandbox`; direct AppImage launches select sandbox behavior based on system support. The platform provenance records the observed behavior, and the Debian package is preferred for a sandboxed desktop installation.
 
 ## Release status and Array
 
