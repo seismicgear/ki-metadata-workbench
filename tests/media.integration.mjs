@@ -3,7 +3,9 @@ import {spawnSync} from 'node:child_process';
 import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';
 const dir=fs.mkdtempSync(path.join(os.tmpdir(),'ki-media-tests-'));
 const core=process.env.KI_CORE||path.resolve('native/target/release/ki-meta'+(process.platform==='win32'?'.exe':''));
-const ffmpeg=process.env.KI_FFMPEG||'ffmpeg',ffprobe=process.env.KI_FFPROBE||'ffprobe';
+// A full fixture encoder can differ from the restricted tools the native app ships.
+// KI_FFMPEG/KI_FFPROBE remain in the child environment to test the packaged tools.
+const ffmpeg=process.env.KI_FIXTURE_FFMPEG||process.env.KI_FFMPEG||'ffmpeg',ffprobe=process.env.KI_FIXTURE_FFPROBE||process.env.KI_FFPROBE||'ffprobe';
 const results=[];
 function run(cmd,args){const r=spawnSync(cmd,args,{encoding:'utf8',timeout:120000,windowsHide:true,maxBuffer:16*1024*1024});if(r.error||r.status!==0)throw Error((r.error?.message??'')+' '+r.stderr);return r.stdout;}
 function ff(args){return run(ffmpeg,['-v','error','-nostdin','-y',...args]);}

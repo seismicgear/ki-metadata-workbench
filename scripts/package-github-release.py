@@ -129,8 +129,8 @@ provenance = {
     'windows_install_acceptance': install, 'packaged_desktop_acceptance': desktop,
     'array_note': candidate['note'],
 }
-(destination / 'BUILD_PROVENANCE.json').write_bytes(encoded(provenance))
+(destination / 'BUILD_PROVENANCE-windows-x64.json').write_bytes(encoded(provenance))
 sums = ''.join(f'{sha256(file)}  {file.name}\n' for file in sorted(destination.iterdir()))
-(destination / 'SHA256SUMS.txt').write_text(sums, encoding='utf-8', newline='\n')
+(destination / 'SHA256SUMS-windows-x64.txt').write_text(sums, encoding='utf-8', newline='\n')
 print(f'Packaged {len(payload)} source files and {len(artifacts)} Windows downloads; all source and runtime integrity checks passed.')
 print(sums, end='')

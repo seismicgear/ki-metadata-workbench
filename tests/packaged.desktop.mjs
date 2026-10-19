@@ -1,4 +1,4 @@
-// Windows acceptance against the installed application and its bundled engines.
+// Platform acceptance against the installed application and its bundled engines.
 import {_electron} from 'playwright';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {deflateSync} from 'node:zlib';
 
-assert.equal(process.platform, 'win32', 'This acceptance test requires actual Windows.');
+assert.ok(['win32', 'linux'].includes(process.platform), 'This acceptance test requires Windows or Linux.');
 assert.ok(process.env.KI_PACKAGED_EXE, 'Set KI_PACKAGED_EXE to the installed application.');
 const executablePath = await fs.realpath(process.env.KI_PACKAGED_EXE);
 const pkg = JSON.parse(await fs.readFile('package.json', 'utf8'));
@@ -40,7 +40,8 @@ async function launch(args) {
   // Do not allow the development tool paths to make a broken package appear healthy.
   const env = {...process.env};
   for (const key of ['KI_CORE', 'KI_EXIFTOOL', 'KI_FFMPEG', 'KI_FFPROBE', 'KI_READ_ONLY', 'ELECTRON_RUN_AS_NODE']) delete env[key];
-  app = await _electron.launch({executablePath, args, env, timeout: 60000});
+  // Preserve the app's normal sandbox behavior; Playwright otherwise adds --no-sandbox on Linux.
+  app = await _electron.launch({executablePath, args, env, timeout: 60000, chromiumSandbox: true});
   const win = await app.firstWindow();
   win.setDefaultTimeout(20000);
   await win.waitForFunction(() => document.querySelectorAll('.file-row').length === 1 && document.getElementById('stop-jobs').hidden);
@@ -52,6 +53,7 @@ try {
   const win = await launch([source]);
   const identity = await app.evaluate(({app}) => ({packaged: app.isPackaged, version: app.getVersion(), name: app.getName()}));
   assert.deepEqual(identity, {packaged: true, version: pkg.version, name: pkg.productName});
+  const chromiumSandboxDisabled = await app.evaluate(({app}) => app.commandLine.hasSwitch('no-sandbox'));
   assert.equal(await win.evaluate(() => !!window.KI_PREVIEW), false);
   pass('The installed branded application launches as a real packaged desktop application');
   const doctor = await win.evaluate(() => window.ki.doctor());
@@ -105,13 +107,14 @@ try {
   assert.deepEqual(await fs.readFile(source), original);
   pass('Installed IPC rejects unlock, save and restore operations in the locked profile');
   await fs.mkdir('release/ci-evidence', {recursive: true});
-  await fs.writeFile('release/ci-evidence/packaged-desktop.json', JSON.stringify({
+  await fs.writeFile(process.env.KI_PACKAGED_EVIDENCE || 'release/ci-evidence/packaged-desktop.json', JSON.stringify({
     version: pkg.version, platform: process.platform, arch: process.arch,
     installed_executable_sha256: sha256(await fs.readFile(executablePath)),
     commit: process.env.GITHUB_SHA || null, checks, passed: checks.length,
     actual_packaged_electron: true, picker_responses_automated: true,
+    chromium_sandbox_disabled: chromiumSandboxDisabled,
   }, null, 2) + '\n');
-  console.log(`${checks.length} installed Windows desktop acceptance checks passed.`);
+  console.log(`${checks.length} installed ${process.platform} desktop acceptance checks passed.`);
 } finally {
   if (app) await app.close();
   await fs.rm(root, {recursive: true, force: true});

@@ -46,7 +46,7 @@ async function customPresets(){const rows=await readJson(path.join(userDir,'pres
 function enginePath(name) {
   const filename=name+(process.platform==='win32'?'.exe':'');
   const bundled=path.join(process.resourcesPath||'', 'bin', name==='exiftool'?'exiftool':'', filename);
-  const dev=path.join(__dirname,'../vendor',process.platform==='win32'?'win32-x64':'local',name==='exiftool'?'exiftool':'',filename);
+  const dev=path.join(__dirname,'../vendor',process.platform==='win32'?'win32-x64':process.platform==='linux'?'linux-x64':'local',name==='exiftool'?'exiftool':'',filename);
   return config[name] || (require('node:fs').existsSync(bundled)?bundled:require('node:fs').existsSync(dev)?dev:'');
 }
 function createCore(){const binary=app.isPackaged?path.join(process.resourcesPath,'bin','ki-meta'+(process.platform==='win32'?'.exe':'')):path.join(__dirname,'../native/target/release','ki-meta'+(process.platform==='win32'?'.exe':''));return new CoreBridge(binary,{KI_DATA_DIR:userDir,KI_FFMPEG:enginePath('ffmpeg'),KI_FFPROBE:enginePath('ffprobe'),KI_EXIFTOOL:enginePath('exiftool')});}

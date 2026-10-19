@@ -1,6 +1,7 @@
 node_modules/
 native/target/
 release/
+vendor/linux-x64/
 .tmp/
 tests/fixtures/
 *.log
