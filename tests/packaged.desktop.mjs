@@ -11,7 +11,7 @@ assert.equal(process.platform, 'win32', 'This acceptance test requires actual Wi
 assert.ok(process.env.KI_PACKAGED_EXE, 'Set KI_PACKAGED_EXE to the installed application.');
 const executablePath = await fs.realpath(process.env.KI_PACKAGED_EXE);
 const pkg = JSON.parse(await fs.readFile('package.json', 'utf8'));
-const root = await fs.mkdtemp(path.join(os.tmpdir(), 'ki-installed-'));
+const root = await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(), 'ki-installed-')));
 const checks = [];
 let app;
 const pass = name => {checks.push(name); console.log('PASS ' + name);};

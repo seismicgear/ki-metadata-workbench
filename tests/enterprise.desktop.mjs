@@ -1,6 +1,6 @@
 // Real Electron and Rust: inspection lock, compare, bulk changes, reports and launcher file arguments.
 import {_electron} from 'playwright';import fs from 'node:fs/promises';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';import {deflateSync} from 'node:zlib';
-const project=path.resolve('.'),root=await fs.mkdtemp(path.join(os.tmpdir(),'ki-enterprise-desktop-'));let app;let passed=0;const pass=n=>{passed++;console.log('PASS '+n);};
+const project=path.resolve('.'),root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'ki-enterprise-desktop-')));let app;let passed=0;const pass=n=>{passed++;console.log('PASS '+n);};
 function crc(data){let c=0xffffffff;for(const b of data){c^=b;for(let i=0;i<8;i++)c=(c>>>1)^((c&1)?0xedb88320:0);}return(c^0xffffffff)>>>0;}
 function chunk(type,data){const t=Buffer.from(type),b=Buffer.alloc(data.length+12);b.writeUInt32BE(data.length);t.copy(b,4);data.copy(b,8);b.writeUInt32BE(crc(Buffer.concat([t,data])),data.length+8);return b;}
 function png(parameters){const header=Buffer.alloc(13);header.writeUInt32BE(2);header.writeUInt32BE(2,4);header[8]=8;header[9]=2;return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',header),chunk('tEXt',Buffer.from('parameters\0'+parameters)),chunk('IDAT',deflateSync(Buffer.alloc(14))),chunk('IEND',Buffer.alloc(0))]);}

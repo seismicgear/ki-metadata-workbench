@@ -22,7 +22,7 @@ GitHub packages are built and tested by the Windows release workflow. The attach
 
 Both Windows x64 downloads include Electron, the Rust metadata engine, ExifTool, FFmpeg and ffprobe. Employees need no development tools, separate media-tool installation, account or license activation. Processing stays on their computer. The app also runs independently of Array.
 
-These are **unsigned build candidates**. Their entire packaged payload has been verified, and actual desktop/native workflows passed on Linux. The exact Windows binaries and installer have not been executed on Windows in this environment. [TEST_REPORT.md](docs/TEST_REPORT.md) records the evidence; [WINDOWS_ACCEPTANCE.md](docs/WINDOWS_ACCEPTANCE.md) covers the remaining platform acceptance.
+GitHub downloads are **unsigned preview releases**. Publication requires the Windows workflow to rebuild and test the native engine, exercise the desktop workflows, verify the packaged payload, and pass installer, installed-app and uninstall checks. The release includes its checksums and Windows build evidence. [TEST_REPORT.md](docs/TEST_REPORT.md) preserves the original local qualification; [WINDOWS_ACCEPTANCE.md](docs/WINDOWS_ACCEPTANCE.md) remains the checklist for an employee-device pilot.
 
 ## The combined upgrade
 
@@ -118,7 +118,7 @@ npm run dist:win
 
 `Launch.cmd` can reuse the included Windows native engine and builds the UI before launch; Rust is needed only if the engine is absent or deliberately rebuilt. Initial dependency installation requires internet access. The pinned npm/Cargo lockfiles and complete Windows vendor/license tree are included. On other development platforms supply trusted ExifTool/FFmpeg/ffprobe with `KI_EXIFTOOL`, `KI_FFMPEG` and `KI_FFPROBE` or the app's tool settings.
 
-**255 application checks passed**, plus **8 Array adapter contract checks**: 75 model/shell/enterprise unit, 29 Rust, 12 media, 35 strict privacy, 49 expanded formats, 11 native enterprise, 23 synthetic browser, and 21 actual Electron/native workflow checks. TypeScript compilation and a fresh Windows core crossbuild also succeeded. These counts qualify the tested fixtures and operations, not every possible file variant.
+**The original local qualification passed 255 application checks**, plus **8 Array adapter contract checks**: 75 model/shell/enterprise unit, 29 Rust, 12 media, 35 strict privacy, 49 expanded formats, 11 native enterprise, 23 synthetic browser, and 21 actual Electron/native workflow checks. TypeScript compilation and a fresh Windows core crossbuild also succeeded. These counts qualify the tested fixtures and operations, not every possible file variant. The GitHub Windows workflow adds platform qualification, Unicode path/value regression coverage and actual installed-application checks; its run and the attached build evidence identify the release results.
 
 `npm test` runs the unit and native integration gates. Python 3 and a full FFmpeg fixture generator are required for tests, not employee runtime. `KI_EXIFTOOL_FIXTURES` selects the upstream ExifTool test images; without it additional image cases are explicitly skipped. Browser and desktop suites use the pinned Playwright dependency and suitable Chromium/Electron runtimes. [TEST_REPORT.md](docs/TEST_REPORT.md) documents exact commands, evidence and platform limits.
 

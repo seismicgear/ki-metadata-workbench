@@ -1,6 +1,6 @@
 // Real Electron, IPC and Rust engine. OS picker responses are automated for fixtures.
 import {_electron} from 'playwright';import fs from 'node:fs/promises';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';import {deflateSync} from 'node:zlib';
-const project=path.resolve('.');const root=await fs.mkdtemp(path.join(os.tmpdir(),'ki-desktop-'));let app;let passed=0;const pass=n=>{passed++;console.log('PASS '+n);};
+const project=path.resolve('.');const root=await fs.realpath(await fs.mkdtemp(path.join(os.tmpdir(),'ki-desktop-')));let app;let passed=0;const pass=n=>{passed++;console.log('PASS '+n);};
 function crc(data){let crc=0xffffffff;for(const b of data){crc^=b;for(let i=0;i<8;i++)crc=(crc>>>1)^((crc&1)?0xedb88320:0);}return (crc^0xffffffff)>>>0;}
 function chunk(type,data){const t=Buffer.from(type);const b=Buffer.alloc(12+data.length);b.writeUInt32BE(data.length);t.copy(b,4);data.copy(b,8);b.writeUInt32BE(crc(Buffer.concat([t,data])),8+data.length);return b;}
 function png(){const hdr=Buffer.alloc(13);hdr.writeUInt32BE(4,0);hdr.writeUInt32BE(4,4);hdr[8]=8;hdr[9]=2;const pixels=Buffer.alloc(4*(1+4*3),90);for(let row=0;row<4;row++)pixels[row*13]=0;return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',hdr),chunk('tEXt',Buffer.from('parameters\0EmployeePrivateToken, Steps: 20, Seed: 42')),chunk('IDAT',deflateSync(pixels)),chunk('IEND',Buffer.alloc(0))]);}
