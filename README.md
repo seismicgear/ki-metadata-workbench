@@ -10,21 +10,21 @@ A free, standalone file utility by **Kuykendall Industries**. Prepared for the A
 
 ## Software and privacy
 
-Read the [Software and Privacy Notice](LEGAL.md), also available offline from **Legal & privacy** in the desktop. It covers local processing, retained history and backups, exports, licenses, and KI contact and privacy requests. The existing v0.4.0 downloads below remain available while the v0.4.1 candidate completes its platform release checks.
+Read the [Software and Privacy Notice](LEGAL.md), also available offline from **Legal & privacy** in the desktop. It covers local processing, retained history and backups, exports, licenses, and KI contact and privacy requests. Version 0.4.1 includes the offline notice and passed the existing Windows and Linux release checks. Earlier releases remain available in the release history.
 
 ## Download and open
 
-[GitHub Releases](https://github.com/seismicgear/ki-metadata-workbench/releases/tag/v0.4.0) · [Build and qualification](https://github.com/seismicgear/ki-metadata-workbench/actions/workflows/windows-release.yml)
+[GitHub Releases](https://github.com/seismicgear/ki-metadata-workbench/releases/tag/v0.4.1) · [Build and qualification](https://github.com/seismicgear/ki-metadata-workbench/actions/workflows/windows-release.yml)
 
 GitHub release candidates are built and tested on Windows and Ubuntu 24.04 x64. Both platform jobs must pass before the release is published. The attached checksums and build provenance identify the exact downloads and source commit. See [GitHub packaging](docs/GITHUB_RELEASES.md).
 
 | Download | Use it for |
 |---|---|
-| [KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.0/KI-Metadata-Workbench-0.4.0-Windows-x64-Portable.exe) | Open the utility without an installer. |
-| [KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.0/KI-Metadata-Workbench-0.4.0-Windows-x64-Setup.exe) | Install for the current Windows user, choose an installation folder, and create shortcuts. This is the package intended for Array distribution. |
-| [KI-Metadata-Workbench-0.4.0-Linux-x64.deb](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.0/KI-Metadata-Workbench-0.4.0-Linux-x64.deb) | Install on Ubuntu 24.04 or a compatible x64 Debian-based system; runtime dependencies are installed by the package manager. |
-| [KI-Metadata-Workbench-0.4.0-Linux-x64.AppImage](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.0/KI-Metadata-Workbench-0.4.0-Linux-x64.AppImage) | Run on a compatible x64 Linux desktop with glibc 2.39 or later, Perl and the Brotli Perl module. |
-| [KI-Metadata-Workbench-0.4.0-Source.zip](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.0/KI-Metadata-Workbench-0.4.0-Source.zip) | Complete source, tests, Windows native engine, vendor tools, licenses and Array handoff. |
+| [KI-Metadata-Workbench-0.4.1-Windows-x64-Portable.exe](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.1/KI-Metadata-Workbench-0.4.1-Windows-x64-Portable.exe) | Open the utility without an installer. |
+| [KI-Metadata-Workbench-0.4.1-Windows-x64-Setup.exe](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.1/KI-Metadata-Workbench-0.4.1-Windows-x64-Setup.exe) | Install for the current Windows user, choose an installation folder, and create shortcuts. This is the package intended for Array distribution. |
+| [KI-Metadata-Workbench-0.4.1-Linux-x64.deb](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.1/KI-Metadata-Workbench-0.4.1-Linux-x64.deb) | Install on Ubuntu 24.04 or a compatible x64 Debian-based system; runtime dependencies are installed by the package manager. |
+| [KI-Metadata-Workbench-0.4.1-Linux-x64.AppImage](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.1/KI-Metadata-Workbench-0.4.1-Linux-x64.AppImage) | Run on a compatible x64 Linux desktop with glibc 2.39 or later, Perl and the Brotli Perl module. |
+| [KI-Metadata-Workbench-0.4.1-Source.zip](https://github.com/seismicgear/ki-metadata-workbench/releases/download/v0.4.1/KI-Metadata-Workbench-0.4.1-Source.zip) | Complete source, tests, Windows native engine, vendor tools, licenses and Array handoff. |
 
 All desktop downloads include Electron, the platform's Rust metadata engine, ExifTool, FFmpeg and ffprobe. Windows packages include their Perl runtime; Linux uses the system Perl interpreter and Brotli module. Employees need no development tools, separate FFmpeg/ExifTool installation, account or license activation. Processing stays on their computer. The app also runs independently of Array.
 
@@ -35,15 +35,15 @@ GitHub downloads are **unsigned release candidates**. Publication requires both 
 On Ubuntu 24.04, install the downloaded Debian package with:
 
 ```sh
-sudo apt install ./KI-Metadata-Workbench-0.4.0-Linux-x64.deb
+sudo apt install ./KI-Metadata-Workbench-0.4.1-Linux-x64.deb
 ```
 
 For the AppImage, install its Perl prerequisites, make it executable, then launch it. Extraction mode also works on systems without FUSE:
 
 ```sh
 sudo apt install perl libio-compress-brotli-perl
-chmod +x KI-Metadata-Workbench-0.4.0-Linux-x64.AppImage
-./KI-Metadata-Workbench-0.4.0-Linux-x64.AppImage --appimage-extract-and-run
+chmod +x KI-Metadata-Workbench-0.4.1-Linux-x64.AppImage
+./KI-Metadata-Workbench-0.4.1-Linux-x64.AppImage --appimage-extract-and-run
 ```
 
 The Linux candidate is qualified on Ubuntu 24.04 x64. Older glibc systems and ARM64 are not targets of this release. The Debian package is the recommended installation for Ubuntu desktops.
