@@ -2,10 +2,11 @@ import type {Inspection,Patch,Preset,SaveResult,Doctor,Policy,PickResult,Session
 import {FIELDS,POLICY_LABELS,emptyPatch,dirty,changeCount,valueFor,editField,applyPreset,copyStagedPatch,setPolicy,supportsPolicy,setRaw,formatBytes,formatDuration,findings,policyDescription,appearanceWarnings,sharingPolicy,canEdit} from './model.js';
 import {CATEGORY_LABELS,classifyTag,metadataFindings,metadataDiff,buildReport,csvReport,bulkPlan,duplicateGroups,fileState,isSavedOutput} from './analysis.js';
 import {icon} from './icons.js';
+import {LEGAL_VERSION,LEGAL_DATE,LEGAL_SECTIONS} from '../shared/legal.js';
 
 interface Entry { doc:Inspection; patch:Patch; selected:boolean; result?:SaveResult; preview?:string;allowPreview?:boolean }
-type Tab='sharing'|'guide'|'fields'|'artwork'|'raw'|'audit'|'streams'|'presets'|'history'|'tools'|'overview'|'evidence'|'compare'|'batch'|'reports';
-const generalViews:Tab[]=['presets','history','tools','guide','overview','compare','batch','reports'];
+type Tab='sharing'|'guide'|'fields'|'artwork'|'raw'|'audit'|'streams'|'presets'|'history'|'tools'|'overview'|'evidence'|'compare'|'batch'|'reports'|'legal';
+const generalViews:Tab[]=['presets','history','tools','guide','overview','compare','batch','reports','legal'];
 const entries=new Map<string,Entry>();
 let current:string|null=null, tab:Tab='fields', filter='all', search='', busy=false, stop=false;
 let presets:Preset[]=[], history:SaveResult[]=[], diagnostics:Doctor|null=null;
@@ -66,9 +67,9 @@ function renderHeader():void {
   const header=$('document-header');header.replaceChildren();const entry=active();const wrapper=element('div');
   const general=generalViews.includes(tab);
   wrapper.append(element('div','eyebrow',general?'WORKSPACE / '+tab.toUpperCase():entry?`${entry.doc.kind.toUpperCase()} / METADATA EDITOR`:'YOUR FILES. YOUR METADATA.'));
-  const heading=general?({presets:'Team presets',history:'Save history',tools:'Settings',guide:'Formats & help',overview:'Workspace overview',compare:'Compare files',batch:'Batch edit',reports:'Workspace report'} as Partial<Record<Tab,string>>)[tab]:entry?entry.doc.name.replace(/\.[^.]+$/,''):'Make every file ready.';
+  const heading=general?({presets:'Team presets',history:'Save history',tools:'Settings',guide:'Formats & help',overview:'Workspace overview',compare:'Compare files',batch:'Batch edit',reports:'Workspace report',legal:'Legal & privacy'} as Partial<Record<Tab,string>>)[tab]:entry?entry.doc.name.replace(/\.[^.]+$/,''):'Make every file ready.';
   wrapper.append(element('h1','document-title',heading));
-  const sub=element('div','document-subtitle');sub.textContent=general?({overview:'Your files, review findings and saved outputs in one inventory.',compare:'Understand what changed between two files.',batch:'Preview changes across the selected files before saving.',reports:'Share a useful record with deliberate control over private details.',presets:'Reusable metadata templates for the whole team.',history:'Saved outputs, verification and recoverable originals.',tools:'Local preferences and the engines included with this utility.',guide:'What each format supports, and how to get started.'} as Partial<Record<Tab,string>>)[tab]??'':entry?`${entry.doc.format}  ·  ${formatBytes(entry.doc.size)}  ·  ${canEdit(entry.doc)?'Metadata editing available':'Inspection only'}`:'The file utility for everyone at Kuykendall Industries.';wrapper.append(sub);header.append(wrapper);
+  const sub=element('div','document-subtitle');sub.textContent=general?({overview:'Your files, review findings and saved outputs in one inventory.',compare:'Understand what changed between two files.',batch:'Preview changes across the selected files before saving.',reports:'Share a useful record with deliberate control over private details.',presets:'Reusable metadata templates for the whole team.',history:'Saved outputs, verification and recoverable originals.',tools:'Local preferences and the engines included with this utility.',guide:'What each format supports, and how to get started.',legal:'Software and Privacy Notice · '+LEGAL_DATE} as Partial<Record<Tab,string>>)[tab]??'':entry?`${entry.doc.format}  ·  ${formatBytes(entry.doc.size)}  ·  ${canEdit(entry.doc)?'Metadata editing available':'Inspection only'}`:'The file utility for everyone at Kuykendall Industries.';wrapper.append(sub);header.append(wrapper);
   if(entry&&!general){const right=element('div','row document-actions');const n=targets().length;if(n>1)right.append(element('span','tag',n+' selected'));if(targets().some(e=>sharingPolicy(e.doc))&&!session.read_only){const prepare=button('Prepare for sharing','shield',()=>{tab='sharing';render();},'button primary');prepare.disabled=busy;right.append(prepare);}header.append(right);}
 
 }
@@ -398,6 +399,13 @@ function renderTools(root:HTMLElement):void{renderDisplaySettings(root);root.app
   for(const name of ['exiftool','ffmpeg','ffprobe']as const){const tool=diagnostics?.[name];const card=element('div','tools-card');card.append(element('h3','',name.toUpperCase()),element('p',tool?.available?'good':'bad',tool?.available?tool.version:tool?.error??'Not checked'),button('Choose executable','folder',async()=>{const d=await bridge.chooseTool(name);if(d){diagnostics=d;render();}},'button small subtle'));root.append(card);}
   if(diagnostics)root.append(element('p','hint','Local configuration and history: '+diagnostics.data_dir));root.append(element('p','hint','Choose only a trusted FFmpeg/ffprobe executable. The app invokes the selected program directly, without a shell. Engines run locally. No download happens inside the app.'));
 }
+function renderLegal(root:HTMLElement):void {
+  const notice=element('article','legal-notice');notice.dataset.legalVersion=LEGAL_VERSION;
+  notice.append(element('p','hint','Version: '+LEGAL_VERSION+' · Effective '+LEGAL_DATE));
+  for(const section of LEGAL_SECTIONS){const block=element('section');block.append(element('h2','',section.heading));for(const paragraph of section.paragraphs)block.append(element('p','',paragraph));notice.append(block);}
+  const links=element('div','row legal-links');links.append(button('Open KI contact form',undefined,()=>bridge.openLegalLink('contact'),'button subtle'),button('Open KI Privacy Policy',undefined,()=>bridge.openLegalLink('privacy'),'button subtle'));
+  notice.append(links,element('p','hint','Links open in your browser. No files or history are attached.'));root.append(notice);
+}
 interface DialogField{key:string;label:string;value:string;multiline?:boolean;readonly?:boolean;choices?:string[];checked?:boolean}
 function formDialog(heading:string,message:string,fields:DialogField[],submit='Save'):Promise<Record<string,string>|null>{
   const dialog=$('dialog')as HTMLDialogElement;dialog.classList.remove('command-dialog');const root=$('dialog-content');root.replaceChildren();root.append(element('h2','',heading),element('p','',message));const form=element('form');const controls=new Map<string,HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>();
@@ -424,7 +432,7 @@ function renderDisplaySettings(root:HTMLElement):void {
 function showCommands():void {
   const dialog=$('dialog')as HTMLDialogElement;if(dialog.open)return;dialog.classList.add('command-dialog');const root=$('dialog-content');root.replaceChildren(element('h2','','Find an action'));
   const search=element('input','command-search');search.type='search';search.placeholder='Open files, clean metadata, find presets…';search.setAttribute('aria-label','Search actions');root.append(search);const list=element('div','command-results');root.append(list);
-  const commands:[string,string,()=>unknown][]=[['Open files','Ctrl+O',()=>openFiles()],['Open a folder','',()=>openFiles(true)],['Workspace overview','',()=>{tab='overview';render();}],['Inspect-only mode','',toggleMode],['Compare files','',()=>{tab='compare';render();}],['Batch edit','',()=>{tab='batch';render();}],['Workspace report','',()=>{tab='reports';render();}],['Prepare for sharing','',()=>{tab='sharing';render();}],['Save copies','Ctrl+Shift+S',()=>saveEntries(false)],['Team presets','',()=>{tab='presets';render();}],['Formats & help','',()=>{tab='guide';render();}],['Save history','',showHistory],['Settings','',showTools]];
+  const commands:[string,string,()=>unknown][]=[['Open files','Ctrl+O',()=>openFiles()],['Open a folder','',()=>openFiles(true)],['Workspace overview','',()=>{tab='overview';render();}],['Inspect-only mode','',toggleMode],['Compare files','',()=>{tab='compare';render();}],['Batch edit','',()=>{tab='batch';render();}],['Workspace report','',()=>{tab='reports';render();}],['Prepare for sharing','',()=>{tab='sharing';render();}],['Save copies','Ctrl+Shift+S',()=>saveEntries(false)],['Team presets','',()=>{tab='presets';render();}],['Formats & help','',()=>{tab='guide';render();}],['Save history','',showHistory],['Settings','',showTools],['Legal & privacy','',()=>{tab='legal';render();}]];
   const fill=()=>{list.replaceChildren();for(const [label,key,action]of commands.filter(c=>c[0].toLowerCase().includes(search.value.toLowerCase()))){const item=button(label,undefined,()=>{dialog.close();return action();},'command-item');if(key)item.append(element('kbd','',key));list.append(item);}if(!list.children.length)list.append(element('p','hint','No matching action. Try “files” or “presets”.'));};
   search.addEventListener('input',fill);search.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();(list.querySelector('button')as HTMLButtonElement|null)?.focus();}if(e.key==='Enter'){e.preventDefault();(list.querySelector('button')as HTMLButtonElement|null)?.click();}});
   list.addEventListener('keydown',e=>{const buttons=Array.from(list.querySelectorAll('button'));const i=buttons.indexOf(document.activeElement as HTMLButtonElement);if(e.key==='ArrowDown'){e.preventDefault();buttons[(i+1)%buttons.length]?.focus();}if(e.key==='ArrowUp'){e.preventDefault();if(i<=0)search.focus();else buttons[i-1]?.focus();}});
@@ -433,9 +441,9 @@ function showCommands():void {
 
 function render():void {
   document.body.classList.toggle('welcome-mode',!active()&&tab==='fields');document.body.classList.toggle('utility-page',generalViews.includes(tab));
-  for(const [id,on]of [['nav-workspace',!generalViews.includes(tab)],['nav-overview',tab==='overview'],['nav-compare',tab==='compare'],['nav-batch',tab==='batch'],['nav-reports',tab==='reports'],['nav-presets',tab==='presets'],['nav-formats',tab==='guide']]as const)$(id).classList.toggle('active',on);
+  for(const [id,on]of [['nav-workspace',!generalViews.includes(tab)],['nav-overview',tab==='overview'],['nav-compare',tab==='compare'],['nav-batch',tab==='batch'],['nav-reports',tab==='reports'],['nav-presets',tab==='presets'],['nav-formats',tab==='guide'],['nav-legal',tab==='legal']]as const)$(id).classList.toggle('active',on);
   renderLibrary();renderHeader();renderTabs();const root=$('editor');root.replaceChildren();const entry=active();
-  if(tab==='overview')renderOverview(root);else if(tab==='compare')renderCompare(root);else if(tab==='batch')renderBatch(root);else if(tab==='reports')renderReports(root);else if(tab==='guide')renderGuide(root);else if(tab==='sharing'&&entry)renderSharing(entry,root);else if(tab==='presets')renderPresets(root);else if(tab==='history')renderHistory(root);else if(tab==='tools')renderTools(root);else if(!entry)welcome(root);else if(tab==='fields')renderFields(entry,root);else if(tab==='evidence')renderEvidence(entry,root);else if(tab==='artwork')renderArtwork(entry,root);else if(tab==='raw')renderRaw(entry,root);else if(tab==='audit')renderAudit(entry,root);else if(tab==='streams')renderStreams(entry,root);
+  if(tab==='overview')renderOverview(root);else if(tab==='compare')renderCompare(root);else if(tab==='batch')renderBatch(root);else if(tab==='reports')renderReports(root);else if(tab==='guide')renderGuide(root);else if(tab==='sharing'&&entry)renderSharing(entry,root);else if(tab==='presets')renderPresets(root);else if(tab==='history')renderHistory(root);else if(tab==='tools')renderTools(root);else if(tab==='legal')renderLegal(root);else if(!entry)welcome(root);else if(tab==='fields')renderFields(entry,root);else if(tab==='evidence')renderEvidence(entry,root);else if(tab==='artwork')renderArtwork(entry,root);else if(tab==='raw')renderRaw(entry,root);else if(tab==='audit')renderAudit(entry,root);else if(tab==='streams')renderStreams(entry,root);
   renderInspector();renderFooter();const view=(current??'welcome')+'|'+tab;if(view!==lastView){root.scrollTop=0;lastView=view;}
 }
 function init():void {
@@ -443,7 +451,7 @@ function init():void {
   $('add-folder').append(icon('folder',16),document.createTextNode('Add folder'));$('add-folder').addEventListener('click',()=>void openFiles(true).catch(showError));
   $('command-button').addEventListener('click',showCommands);
   $('session-mode').addEventListener('click',()=>void toggleMode().catch(showError));
-  for(const [id,name,view] of [['nav-workspace','file','fields'],['nav-overview','grid','overview'],['nav-compare','compare','compare'],['nav-batch','layers','batch'],['nav-reports','download','reports'],['nav-presets','spark','presets'],['nav-formats','help','guide']] as const){$(id).prepend(icon(name,17));$(id).addEventListener('click',()=>{tab=view;render();});}
+  for(const [id,name,view] of [['nav-workspace','file','fields'],['nav-overview','grid','overview'],['nav-compare','compare','compare'],['nav-batch','layers','batch'],['nav-reports','download','reports'],['nav-presets','spark','presets'],['nav-formats','help','guide'],['nav-legal','shield','legal']] as const){$(id).prepend(icon(name,17));$(id).addEventListener('click',()=>{tab=view;render();});}
   document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();showCommands();}});
   applyPreferences();
   $('search-icon').append(icon('search',15));$('history-button').append(icon('history'));$('tools-button').append(icon('settings'));
@@ -458,7 +466,7 @@ function init():void {
   render();if(!bridge){showError('The native desktop bridge is unavailable. Launch this app in Electron.');return;}
   bridge.onOpenFiles(pick=>void importResult(pick));bridge.onSession(state=>{session=state;render();});
   void bridge.sessionState().then(state=>{session=state;render();return bridge.launchFiles();}).then(importResult).catch(showError);
-  bridge.onMenu(action=>{const handlers:Record<string,()=>unknown>={open:()=>openFiles(),folder:()=>openFiles(true),save:()=>saveEntries(false),replace:()=>saveEntries(true),history:showHistory,tools:showTools,commands:showCommands};try{const result=handlers[action]?.();if(result instanceof Promise)void result.catch(showError);}catch(e){showError(e);}});
+  bridge.onMenu(action=>{const handlers:Record<string,()=>unknown>={open:()=>openFiles(),folder:()=>openFiles(true),save:()=>saveEntries(false),replace:()=>saveEntries(true),history:showHistory,tools:showTools,legal:()=>{tab='legal';render();},commands:showCommands};try{const result=handlers[action]?.();if(result instanceof Promise)void result.catch(showError);}catch(e){showError(e);}});
   void bridge.doctor().then(d=>{diagnostics=d;renderFooter();}).catch(()=>{});
   void loadPresets().then(()=>{if(tab==='presets')render();}).catch(showError);
 }

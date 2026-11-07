@@ -17,6 +17,6 @@ try{
  const recursive=cli(['scan','--recursive',folder]);assert.equal(recursive.status,0,recursive.stderr);assert.equal(recursive.stdout.trim().split('\n').length,2);assert.notEqual(cli(['scan',folder]).status,0);pass('Recursive scanning skips hidden directories and links and requires explicit folder recursion');
  const missing=cli(['scan',source,path.join(root,'missing')]);assert.notEqual(missing.status,0);assert.equal(JSON.parse(missing.stdout).sha256,doc.properties.evidence.sha256);assert.match(missing.stderr,/1 error/);pass('Partial CLI failures preserve valid JSONL rows and return a nonzero exit status');
  assert.deepEqual(fs.readFileSync(source),bytes);assert.equal(fs.readFileSync(fake,'utf8'),'MZThis is not a JPEG.');assert.ok(!fs.existsSync(path.join(root,'app-data')));pass('Inspection and scans do not modify sources or create persistent application journals');
- assert.match(cli(['--help']).stdout,/scan/);assert.equal(cli(['--version']).stdout.trim(),'ki-meta 0.4.0');pass('CLI help documents the inventory options and reports the actual release version');
+ assert.match(cli(['--help']).stdout,/scan/);assert.equal(cli(['--version']).stdout.trim(),'ki-meta 0.4.1');pass('CLI help documents the inventory options and reports the actual release version');
  console.log(`${passed} enterprise/native integration checks passed.`);
 }finally{fs.rmSync(root,{recursive:true,force:true});}

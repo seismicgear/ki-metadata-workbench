@@ -1,7 +1,8 @@
 import { FIELDS, POLICY_LABELS, emptyPatch, dirty, changeCount, valueFor, editField, applyPreset, copyStagedPatch, setPolicy, supportsPolicy, setRaw, formatBytes, formatDuration, findings, policyDescription, appearanceWarnings, sharingPolicy, canEdit } from './model.js';
 import { CATEGORY_LABELS, classifyTag, metadataFindings, metadataDiff, buildReport, csvReport, bulkPlan, duplicateGroups, fileState, isSavedOutput } from './analysis.js';
 import { icon } from './icons.js';
-const generalViews = ['presets', 'history', 'tools', 'guide', 'overview', 'compare', 'batch', 'reports'];
+import { LEGAL_VERSION, LEGAL_DATE, LEGAL_SECTIONS } from '../shared/legal.js';
+const generalViews = ['presets', 'history', 'tools', 'guide', 'overview', 'compare', 'batch', 'reports', 'legal'];
 const entries = new Map();
 let current = null, tab = 'fields', filter = 'all', search = '', busy = false, stop = false;
 let presets = [], history = [], diagnostics = null;
@@ -162,10 +163,10 @@ function renderHeader() {
     const wrapper = element('div');
     const general = generalViews.includes(tab);
     wrapper.append(element('div', 'eyebrow', general ? 'WORKSPACE / ' + tab.toUpperCase() : entry ? `${entry.doc.kind.toUpperCase()} / METADATA EDITOR` : 'YOUR FILES. YOUR METADATA.'));
-    const heading = general ? { presets: 'Team presets', history: 'Save history', tools: 'Settings', guide: 'Formats & help', overview: 'Workspace overview', compare: 'Compare files', batch: 'Batch edit', reports: 'Workspace report' }[tab] : entry ? entry.doc.name.replace(/\.[^.]+$/, '') : 'Make every file ready.';
+    const heading = general ? { presets: 'Team presets', history: 'Save history', tools: 'Settings', guide: 'Formats & help', overview: 'Workspace overview', compare: 'Compare files', batch: 'Batch edit', reports: 'Workspace report', legal: 'Legal & privacy' }[tab] : entry ? entry.doc.name.replace(/\.[^.]+$/, '') : 'Make every file ready.';
     wrapper.append(element('h1', 'document-title', heading));
     const sub = element('div', 'document-subtitle');
-    sub.textContent = general ? { overview: 'Your files, review findings and saved outputs in one inventory.', compare: 'Understand what changed between two files.', batch: 'Preview changes across the selected files before saving.', reports: 'Share a useful record with deliberate control over private details.', presets: 'Reusable metadata templates for the whole team.', history: 'Saved outputs, verification and recoverable originals.', tools: 'Local preferences and the engines included with this utility.', guide: 'What each format supports, and how to get started.' }[tab] ?? '' : entry ? `${entry.doc.format}  ·  ${formatBytes(entry.doc.size)}  ·  ${canEdit(entry.doc) ? 'Metadata editing available' : 'Inspection only'}` : 'The file utility for everyone at Kuykendall Industries.';
+    sub.textContent = general ? { overview: 'Your files, review findings and saved outputs in one inventory.', compare: 'Understand what changed between two files.', batch: 'Preview changes across the selected files before saving.', reports: 'Share a useful record with deliberate control over private details.', presets: 'Reusable metadata templates for the whole team.', history: 'Saved outputs, verification and recoverable originals.', tools: 'Local preferences and the engines included with this utility.', guide: 'What each format supports, and how to get started.', legal: 'Software and Privacy Notice · ' + LEGAL_DATE }[tab] ?? '' : entry ? `${entry.doc.format}  ·  ${formatBytes(entry.doc.size)}  ·  ${canEdit(entry.doc) ? 'Metadata editing available' : 'Inspection only'}` : 'The file utility for everyone at Kuykendall Industries.';
     wrapper.append(sub);
     header.append(wrapper);
     if (entry && !general) {
@@ -1255,6 +1256,22 @@ function renderTools(root) {
         root.append(element('p', 'hint', 'Local configuration and history: ' + diagnostics.data_dir));
     root.append(element('p', 'hint', 'Choose only a trusted FFmpeg/ffprobe executable. The app invokes the selected program directly, without a shell. Engines run locally. No download happens inside the app.'));
 }
+function renderLegal(root) {
+    const notice = element('article', 'legal-notice');
+    notice.dataset.legalVersion = LEGAL_VERSION;
+    notice.append(element('p', 'hint', 'Version: ' + LEGAL_VERSION + ' · Effective ' + LEGAL_DATE));
+    for (const section of LEGAL_SECTIONS) {
+        const block = element('section');
+        block.append(element('h2', '', section.heading));
+        for (const paragraph of section.paragraphs)
+            block.append(element('p', '', paragraph));
+        notice.append(block);
+    }
+    const links = element('div', 'row legal-links');
+    links.append(button('Open KI contact form', undefined, () => bridge.openLegalLink('contact'), 'button subtle'), button('Open KI Privacy Policy', undefined, () => bridge.openLegalLink('privacy'), 'button subtle'));
+    notice.append(links, element('p', 'hint', 'Links open in your browser. No files or history are attached.'));
+    root.append(notice);
+}
 function formDialog(heading, message, fields, submit = 'Save') {
     const dialog = $('dialog');
     dialog.classList.remove('command-dialog');
@@ -1358,7 +1375,7 @@ function showCommands() {
     root.append(search);
     const list = element('div', 'command-results');
     root.append(list);
-    const commands = [['Open files', 'Ctrl+O', () => openFiles()], ['Open a folder', '', () => openFiles(true)], ['Workspace overview', '', () => { tab = 'overview'; render(); }], ['Inspect-only mode', '', toggleMode], ['Compare files', '', () => { tab = 'compare'; render(); }], ['Batch edit', '', () => { tab = 'batch'; render(); }], ['Workspace report', '', () => { tab = 'reports'; render(); }], ['Prepare for sharing', '', () => { tab = 'sharing'; render(); }], ['Save copies', 'Ctrl+Shift+S', () => saveEntries(false)], ['Team presets', '', () => { tab = 'presets'; render(); }], ['Formats & help', '', () => { tab = 'guide'; render(); }], ['Save history', '', showHistory], ['Settings', '', showTools]];
+    const commands = [['Open files', 'Ctrl+O', () => openFiles()], ['Open a folder', '', () => openFiles(true)], ['Workspace overview', '', () => { tab = 'overview'; render(); }], ['Inspect-only mode', '', toggleMode], ['Compare files', '', () => { tab = 'compare'; render(); }], ['Batch edit', '', () => { tab = 'batch'; render(); }], ['Workspace report', '', () => { tab = 'reports'; render(); }], ['Prepare for sharing', '', () => { tab = 'sharing'; render(); }], ['Save copies', 'Ctrl+Shift+S', () => saveEntries(false)], ['Team presets', '', () => { tab = 'presets'; render(); }], ['Formats & help', '', () => { tab = 'guide'; render(); }], ['Save history', '', showHistory], ['Settings', '', showTools], ['Legal & privacy', '', () => { tab = 'legal'; render(); }]];
     const fill = () => { list.replaceChildren(); for (const [label, key, action] of commands.filter(c => c[0].toLowerCase().includes(search.value.toLowerCase()))) {
         const item = button(label, undefined, () => { dialog.close(); return action(); }, 'command-item');
         if (key)
@@ -1392,7 +1409,7 @@ function showCommands() {
 function render() {
     document.body.classList.toggle('welcome-mode', !active() && tab === 'fields');
     document.body.classList.toggle('utility-page', generalViews.includes(tab));
-    for (const [id, on] of [['nav-workspace', !generalViews.includes(tab)], ['nav-overview', tab === 'overview'], ['nav-compare', tab === 'compare'], ['nav-batch', tab === 'batch'], ['nav-reports', tab === 'reports'], ['nav-presets', tab === 'presets'], ['nav-formats', tab === 'guide']])
+    for (const [id, on] of [['nav-workspace', !generalViews.includes(tab)], ['nav-overview', tab === 'overview'], ['nav-compare', tab === 'compare'], ['nav-batch', tab === 'batch'], ['nav-reports', tab === 'reports'], ['nav-presets', tab === 'presets'], ['nav-formats', tab === 'guide'], ['nav-legal', tab === 'legal']])
         $(id).classList.toggle('active', on);
     renderLibrary();
     renderHeader();
@@ -1418,6 +1435,8 @@ function render() {
         renderHistory(root);
     else if (tab === 'tools')
         renderTools(root);
+    else if (tab === 'legal')
+        renderLegal(root);
     else if (!entry)
         welcome(root);
     else if (tab === 'fields')
@@ -1447,7 +1466,7 @@ function init() {
     $('add-folder').addEventListener('click', () => void openFiles(true).catch(showError));
     $('command-button').addEventListener('click', showCommands);
     $('session-mode').addEventListener('click', () => void toggleMode().catch(showError));
-    for (const [id, name, view] of [['nav-workspace', 'file', 'fields'], ['nav-overview', 'grid', 'overview'], ['nav-compare', 'compare', 'compare'], ['nav-batch', 'layers', 'batch'], ['nav-reports', 'download', 'reports'], ['nav-presets', 'spark', 'presets'], ['nav-formats', 'help', 'guide']]) {
+    for (const [id, name, view] of [['nav-workspace', 'file', 'fields'], ['nav-overview', 'grid', 'overview'], ['nav-compare', 'compare', 'compare'], ['nav-batch', 'layers', 'batch'], ['nav-reports', 'download', 'reports'], ['nav-presets', 'spark', 'presets'], ['nav-formats', 'help', 'guide'], ['nav-legal', 'shield', 'legal']]) {
         $(id).prepend(icon(name, 17));
         $(id).addEventListener('click', () => { tab = view; render(); });
     }
@@ -1483,7 +1502,7 @@ function init() {
     bridge.onOpenFiles(pick => void importResult(pick));
     bridge.onSession(state => { session = state; render(); });
     void bridge.sessionState().then(state => { session = state; render(); return bridge.launchFiles(); }).then(importResult).catch(showError);
-    bridge.onMenu(action => { const handlers = { open: () => openFiles(), folder: () => openFiles(true), save: () => saveEntries(false), replace: () => saveEntries(true), history: showHistory, tools: showTools, commands: showCommands }; try {
+    bridge.onMenu(action => { const handlers = { open: () => openFiles(), folder: () => openFiles(true), save: () => saveEntries(false), replace: () => saveEntries(true), history: showHistory, tools: showTools, legal: () => { tab = 'legal'; render(); }, commands: showCommands }; try {
         const result = handlers[action]?.();
         if (result instanceof Promise)
             void result.catch(showError);

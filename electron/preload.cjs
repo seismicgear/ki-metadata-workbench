@@ -2,6 +2,7 @@
 const { contextBridge, ipcRenderer, webUtils } = require('electron');
 const invoke = (name,...args) => ipcRenderer.invoke('ki:'+name,...args);
 contextBridge.exposeInMainWorld('ki', {
+  openLegalLink:kind=>invoke('openLegalLink',kind),
   sessionState:()=>invoke('sessionState'),setReadOnly:value=>invoke('setReadOnly',value),launchFiles:()=>invoke('launchFiles'),
   onOpenFiles:callback=>ipcRenderer.on('ki:openFiles',(_event,result)=>callback(result)),
   onSession:callback=>ipcRenderer.on('ki:session',(_event,state)=>callback(state)),

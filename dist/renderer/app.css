@@ -22,3 +22,9 @@ dialog{width:min(680px,92vw);max-height:86vh;overflow:auto;padding:29px;backgrou
 .reduce-motion *, .reduce-motion *:before,.reduce-motion *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media(prefers-contrast:more){:root{--line:#6b665f;--line2:#9c9488;--muted:#d0c5b3}.hint,.file-meta,.preview-caption,.metric-card .hint{color:#c9bfae}input,textarea,select{border-color:#a39783}}
+
+.legal-notice { max-width: 58rem; line-height: 1.65; font-size: 15px; overflow-wrap: anywhere; }
+.legal-notice section { margin: 1.6rem 0; }
+.legal-notice h2 { font-size: 1.15rem; margin-bottom: .6rem; }
+.legal-notice p { margin: .7rem 0; }
+.legal-links { flex-wrap: wrap; gap: .75rem; }
