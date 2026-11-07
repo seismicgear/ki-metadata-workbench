@@ -57,6 +57,7 @@ async function copyDestination(folder,source,privateCopy,neutral,index) {
 }
 
 async function register(){
+  handle('openLegalLink',async kind=>{const links={contact:'https://kuykendall.industries/contact?category=Privacy%20%2F%20Data%20Request',privacy:'https://kuykendall.industries/privacy'};if(!Object.hasOwn(links,kind))throw Error('Unknown legal link.');await shell.openExternal(links[kind]);});
   handle('sessionState',()=>mode.state());
   handle('setReadOnly',value=>mode.set(value,writing));
   handle('launchFiles',async()=>{launchReady=true;const files=pendingLaunchFiles;pendingLaunchFiles=[];return collect(files);});
@@ -125,7 +126,7 @@ if(singleInstance)app.whenReady().then(async()=>{
   window.on('close',event=>{if(writing){event.preventDefault();dialog.showMessageBoxSync(window,{type:'info',message:'A write is in progress. Close after it finishes.',buttons:['OK']});return;}
     if(dirty&&dialog.showMessageBoxSync(window,{type:'question',message:'Discard unsaved metadata changes?',buttons:['Keep editing','Discard and close'],defaultId:0,cancelId:0})===0)event.preventDefault();});
   const send=action=>window.webContents.send('ki:menu',action);
-  Menu.setApplicationMenu(Menu.buildFromTemplate([{label:'File',submenu:[{label:'Add files…',accelerator:'CmdOrCtrl+O',click:()=>send('open')},{label:'Add folder…',click:()=>send('folder')},{type:'separator'},{label:'Save copy…',accelerator:'CmdOrCtrl+Shift+S',click:()=>send('save')},{label:'Replace original…',accelerator:'CmdOrCtrl+S',click:()=>send('replace')},{type:'separator'},{role:'quit'}]},{label:'Edit',submenu:[{role:'undo'},{role:'redo'},{type:'separator'},{role:'cut'},{role:'copy'},{role:'paste'},{role:'selectAll'}]},{label:'View',submenu:[{label:'Command menu…',accelerator:'CmdOrCtrl+K',click:()=>send('commands')},{label:'History',click:()=>send('history')},{label:'Tools',click:()=>send('tools')},{role:'resetZoom'},{role:'zoomIn'},{role:'zoomOut'},{role:'togglefullscreen'}]}]));
+  Menu.setApplicationMenu(Menu.buildFromTemplate([{label:'File',submenu:[{label:'Add files…',accelerator:'CmdOrCtrl+O',click:()=>send('open')},{label:'Add folder…',click:()=>send('folder')},{type:'separator'},{label:'Save copy…',accelerator:'CmdOrCtrl+Shift+S',click:()=>send('save')},{label:'Replace original…',accelerator:'CmdOrCtrl+S',click:()=>send('replace')},{type:'separator'},{role:'quit'}]},{label:'Edit',submenu:[{role:'undo'},{role:'redo'},{type:'separator'},{role:'cut'},{role:'copy'},{role:'paste'},{role:'selectAll'}]},{label:'View',submenu:[{label:'Command menu…',accelerator:'CmdOrCtrl+K',click:()=>send('commands')},{label:'History',click:()=>send('history')},{label:'Tools',click:()=>send('tools')},{role:'resetZoom'},{role:'zoomIn'},{role:'zoomOut'},{role:'togglefullscreen'}]},{label:'Help',submenu:[{label:'Legal & privacy',click:()=>send('legal')}]}]));
   await register();await window.loadURL(renderer);window.show();
 }).catch(error=>{dialog.showErrorBox('KI Metadata Workbench',error.stack||error.message);app.quit();});
 app.on('window-all-closed',()=>app.quit());app.on('before-quit',()=>{if(!writing)core?.close();});

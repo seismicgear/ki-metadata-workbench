@@ -1,12 +1,16 @@
 <div align="center">
 <img src="assets/metadata-mark.svg" width="100" alt="METADATA">
 
-# METADATA · 0.4.0
+# METADATA · 0.4.1
 ### Know what you share.
 
 A free, standalone file utility by **Kuykendall Industries**. Prepared for the Array launcher.
 
 </div>
+
+## Software and privacy
+
+Read the [Software and Privacy Notice](LEGAL.md), also available offline from **Legal & privacy** in the desktop. It covers local processing, retained history and backups, exports, licenses, and KI contact and privacy requests. The existing v0.4.0 downloads below remain available while the v0.4.1 candidate completes its platform release checks.
 
 ## Download and open
 

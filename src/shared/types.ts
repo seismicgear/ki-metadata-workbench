@@ -29,6 +29,7 @@ export interface ToolStatus { available: boolean; version: string; error?: strin
 export interface Doctor { version: string; ffmpeg: ToolStatus; ffprobe: ToolStatus; exiftool: ToolStatus; native_documents: boolean; formats?: Record<string,string[]|string>; data_dir: string; native_audio: boolean; native_images: boolean }
 export interface PickResult { paths: string[]; warnings: string[] }
 export interface Bridge {
+  openLegalLink(kind:'contact'|'privacy'):Promise<void>;
   sessionState():Promise<SessionState>;
   setReadOnly(value:boolean):Promise<SessionState>;
   launchFiles():Promise<PickResult>;

@@ -1,6 +1,7 @@
 // Interface demonstration only. This file is never loaded by the Electron app.
 // It does not claim to read, write, verify, restore or upload the user's files.
 import type {Bridge,Inspection,Preset} from '../shared/types.js';
+import {LEGAL_LINKS} from '../shared/legal.js';
 import {FIELDS} from './model.js';
 window.KI_PREVIEW=true;
 const base:Inspection={path:'C:\\Preview\\Sample release.mp3',name:'Sample release.mp3',kind:'audio',format:'MP3',size:9797580,etag:'a'.repeat(64),
@@ -28,6 +29,7 @@ for(const [index,file]of files.entries()){file.etag=String(index+1).repeat(64);f
 let presets:Preset[]=[{id:'builtin-ki-release',name:'Kuykendall Industries · Release',policy:'keep',builtin:true,fields:{artist:'Montgomery Kuykendall',album_artist:'Montgomery Kuykendall',label:'Kuykendall Industries'}},{id:'builtin-image-privacy',name:'Private sharing · Strip image metadata',policy:'strip_metadata',builtin:true,fields:{}}];
 async function disabled():Promise<never>{throw Error('Interface preview only. No files are written or verified. Run the Electron/Rust app to edit real media.');}
 window.ki={
+  openLegalLink:async kind=>{if(!Object.hasOwn(LEGAL_LINKS,kind))throw Error('Unknown legal link.');window.open(LEGAL_LINKS[kind],'_blank','noopener,noreferrer');},
   sessionState:async()=>({...previewSession}),setReadOnly:async value=>(previewSession={read_only:value,locked:false}),launchFiles:async()=>({paths:[],warnings:[]}),onOpenFiles:()=>{},onSession:()=>{},exportReport:disabled,
   pickFiles:async()=>({paths:files.map(f=>f.path),warnings:[]}),dropped:async()=>({paths:[],warnings:['File reading is disabled in the interface preview. Use Add files to load synthetic samples.']}),
   inspect:async path=>{const f=files.find(f=>f.path===path);if(!f)throw Error('No such sample.');return structuredClone(f);},

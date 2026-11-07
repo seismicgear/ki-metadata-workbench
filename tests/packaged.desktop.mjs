@@ -1,5 +1,6 @@
 // Platform acceptance against the installed application and its bundled engines.
 import {_electron} from 'playwright';
+import {verifyLegalNotice} from './legal.desktop.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import os from 'node:os';
@@ -36,7 +37,7 @@ function fixture() {
     chunk('IDAT', deflateSync(Buffer.alloc(14))), chunk('IEND', Buffer.alloc(0)),
   ]);
 }
-async function launch(args) {
+async function launch(args, expectedFiles = 1) {
   // Do not allow the development tool paths to make a broken package appear healthy.
   const env = {...process.env};
   for (const key of ['KI_CORE', 'KI_EXIFTOOL', 'KI_FFMPEG', 'KI_FFPROBE', 'KI_READ_ONLY', 'ELECTRON_RUN_AS_NODE']) delete env[key];
@@ -44,12 +45,16 @@ async function launch(args) {
   app = await _electron.launch({executablePath, args, env, timeout: 60000, chromiumSandbox: true});
   const win = await app.firstWindow();
   win.setDefaultTimeout(20000);
-  await win.waitForFunction(() => document.querySelectorAll('.file-row').length === 1 && document.getElementById('stop-jobs').hidden);
+  await win.waitForFunction(count => document.querySelectorAll('.file-row').length === count && document.getElementById('stop-jobs').hidden, expectedFiles);
   return win;
 }
 try {
   const source = path.join(root, 'Synthetic employee image.png'), output = path.join(root, 'Shared copy.png');
   const original = fixture(); await fs.writeFile(source, original);
+  const beforeImport = await launch([], 0);
+  await verifyLegalNotice(app, beforeImport);
+  pass('The installed notice, Help menu and bounded contact links work before any file is imported');
+  await app.close(); app = null;
   const win = await launch([source]);
   const identity = await app.evaluate(({app}) => ({packaged: app.isPackaged, version: app.getVersion(), name: app.getName()}));
   assert.deepEqual(identity, {packaged: true, version: pkg.version, name: pkg.productName});

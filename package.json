@@ -1,7 +1,7 @@
 {
   "name": "ki-metadata-workbench",
   "productName": "KI Metadata Workbench",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A local metadata workbench by Kuykendall Industries. Rust core, Electron shell, framework-free TypeScript UI.",
   "author": "Kuykendall Industries",
   "license": "UNLICENSED",
@@ -12,7 +12,7 @@
   },
   "scripts": {
     "doctor": "node scripts/doctor.mjs",
-    "build:ui": "tsc -p tsconfig.json && node scripts/copy-assets.mjs",
+    "build:ui": "tsc -p tsconfig.json && node scripts/copy-assets.mjs && node scripts/write-legal-notice.mjs",
     "build:core": "cargo build --manifest-path native/Cargo.toml --release",
     "build": "npm run build:ui && npm run build:core",
     "start": "electron .",
@@ -53,7 +53,9 @@
       "assets/**/*",
       "package.json",
       "!dist/renderer/preview-bridge.js",
-      "!dist/renderer/preview-bridge.js.map"
+      "!dist/renderer/preview-bridge.js.map",
+      "LEGAL.md",
+      "legal/notices/**/*"
     ],
     "extraResources": [
       {

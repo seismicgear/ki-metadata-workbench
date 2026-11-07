@@ -27,6 +27,12 @@ dialog{width:min(680px,92vw);max-height:86vh;overflow:auto;padding:29px;backgrou
 .reduce-motion *, .reduce-motion *:before,.reduce-motion *:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 @media(prefers-contrast:more){:root{--line:#6b665f;--line2:#9c9488;--muted:#d0c5b3}.hint,.file-meta,.preview-caption,.metric-card .hint{color:#c9bfae}input,textarea,select{border-color:#a39783}}
+
+.legal-notice { max-width: 58rem; line-height: 1.65; font-size: 15px; overflow-wrap: anywhere; }
+.legal-notice section { margin: 1.6rem 0; }
+.legal-notice h2 { font-size: 1.15rem; margin-bottom: .6rem; }
+.legal-notice p { margin: .7rem 0; }
+.legal-links { flex-wrap: wrap; gap: .75rem; }
 </style>
 </head>
 <body>
@@ -55,6 +61,7 @@ dialog{width:min(680px,92vw);max-height:86vh;overflow:auto;padding:29px;backgrou
         <div class="nav-divider"></div>
         <button id="nav-presets" class="nav-item">Team presets</button>
         <button id="nav-formats" class="nav-item">Formats &amp; help</button>
+        <button id="nav-legal" class="nav-item">Legal &amp; privacy</button>
       </nav>
       <div class="section-heading"><span>WORKSPACE FILES</span><span id="file-count">0 FILES</span></div>
       <div class="import-actions"><button id="add-files" class="button primary full"></button><button id="add-folder" class="button subtle full"></button></div>
@@ -67,9 +74,40 @@ dialog{width:min(680px,92vw);max-height:86vh;overflow:auto;padding:29px;backgrou
     <main class="work-area"><header id="document-header" class="document-header"></header><nav id="tabs" class="tabs" aria-label="Editor views"></nav><div id="editor" class="editor"></div><footer id="save-bar" class="save-bar"></footer></main>
     <aside id="inspector" class="inspector"></aside>
   </div>
-  <footer class="status-bar"><span>KUYKENDALL INDUSTRIES <b>/</b> METADATA</span><span id="global-status">Ready</span><span>0.4.0</span></footer>
+  <footer class="status-bar"><span>KUYKENDALL INDUSTRIES <b>/</b> METADATA</span><span id="global-status">Ready</span><span>0.4.1</span></footer>
 </div>
-<div id="toast" class="toast" role="status" hidden></div><dialog id="dialog"><div id="dialog-content"></div></dialog><script type="module">const FIELDS = [
+<div id="toast" class="toast" role="status" hidden></div><dialog id="dialog"><div id="dialog-content"></div></dialog><script type="module">const LEGAL_VERSION = 'metadata-notice-2026-11-07';
+const LEGAL_DATE = 'November 7, 2026';
+const LEGAL_LINKS = {
+    contact: 'https://kuykendall.industries/contact?category=Privacy%20%2F%20Data%20Request',
+    privacy: 'https://kuykendall.industries/privacy',
+};
+const LEGAL_SECTIONS = [
+    { heading: 'About METADATA', paragraphs: [
+            'METADATA is a free, standalone desktop utility provided by Kuykendall Industries, LLC. It requires no account, subscription or license activation. You may use official KI builds for personal or work files you are authorized to process. You retain your rights to your files; this notice grants KI no right to use their contents for model training.',
+            'Release candidates are previews. Work on copies and review the results before relying on or sharing them. A separate agreement you have with KI and rights that cannot be limited by law remain in effect.',
+        ] },
+    { heading: 'Processing on your device', paragraphs: [
+            'The desktop processes files you select, drop into it or open with it. This can include file contents, names and paths, embedded images, authors, location metadata, prompts and other descriptive fields, file fingerprints, and your edit or export instructions. Processing occurs on your computer. The app does not upload these records to KI or a model provider and does not collect analytics or send automatic diagnostics.',
+            'Display preferences, tool settings, presets and save history are stored locally. Local tools process the selected files; choose only trusted replacement tools. Your operating system, employer, shared folders, cloud synchronization or backup services may separately access or copy files under their own settings.',
+        ] },
+    { heading: 'Retention and removal', paragraphs: [
+            'Clearing the workspace removes its file list, not files on disk. Saving a copy preserves the original. Replacing an original creates a complete backup in a .ki-backups folder beside it. History, audits, presets, exports and backups may retain names, paths, fingerprints and private metadata, including information removed from a cleaned file.',
+            'These records do not expire automatically. Uninstalling the app does not remove its local settings and history. Settings shows the local configuration and history folder. Close the app and use your operating system to remove records you no longer need, including separate originals, backups and exports. Removal is not secure erasure and does not remove copies held by other backup or synchronization services. KI cannot retrieve or remotely delete files that remain solely on your device.',
+        ] },
+    { heading: 'Exports and cleanup results', paragraphs: [
+            'Exports are saved where you choose. Review files, reports, audits and preset packs before sharing them: an audit or source snapshot can contain details absent from a cleaned file. Metadata cleanup does not redact visible content or guarantee anonymity, ownership, authenticity or compliance with a particular law. Its scope depends on the format and selected policy; external copies, sidecar files and filesystem information can remain.',
+        ] },
+    { heading: 'Contact, support and privacy requests', paragraphs: [
+            'If you contact KI, KI receives the details and materials you choose to send. That information is handled under the KI Privacy Policy. Use the KI contact form for support or a request to access, correct, export or delete information KI holds about you. Send only what is needed to explain the request. Opening these links uses your browser; it does not attach your files or history.',
+            'Kuykendall Industries, LLC · contact@forwarding.kuykendall.industries · (208) 500-2410. The KI contact form and Privacy Policy are available from the buttons below and at kuykendall.industries. GitHub separately processes visits and downloads under its own terms and privacy notice.',
+        ] },
+    { heading: 'Software, licenses and updates', paragraphs: [
+            'METADATA does not automatically download updates. Obtain updates from the official KI release page and review the notice included with that version. Third-party components retain their own licenses; their notices and applicable source materials accompany the downloads. Free use of this utility does not change those licenses or make KI proprietary code open source. This notice does not replace the terms attached to a different KI product or an earlier download.',
+        ] },
+];
+
+const FIELDS = [
     { key: 'subject', label: 'Subject', group: 'Identity' },
     { key: 'company', label: 'Company', group: 'Credits' }, { key: 'manager', label: 'Manager', group: 'Credits' },
     { key: 'category', label: 'Category', group: 'Details' }, { key: 'rating', label: 'Rating', group: 'Details', placeholder: '0–5' },
@@ -388,6 +426,7 @@ function icon(name, size = 18) {
 }
 
 (()=>{
+
 window.KI_PREVIEW = true;
 const base = { path: 'C:\\Preview\\Sample release.mp3', name: 'Sample release.mp3', kind: 'audio', format: 'MP3', size: 9797580, etag: 'a'.repeat(64),
     fields: { title: 'Sample release', artist: 'Original artist', album: 'Studio sessions', date: '2026', genre: 'Electronic', comment: 'Example source comment. Synthetic metadata for the interface preview.' },
@@ -417,6 +456,8 @@ for (const [index, file] of files.entries()) {
 let presets = [{ id: 'builtin-ki-release', name: 'Kuykendall Industries · Release', policy: 'keep', builtin: true, fields: { artist: 'Montgomery Kuykendall', album_artist: 'Montgomery Kuykendall', label: 'Kuykendall Industries' } }, { id: 'builtin-image-privacy', name: 'Private sharing · Strip image metadata', policy: 'strip_metadata', builtin: true, fields: {} }];
 async function disabled() { throw Error('Interface preview only. No files are written or verified. Run the Electron/Rust app to edit real media.'); }
 window.ki = {
+    openLegalLink: async (kind) => { if (!Object.hasOwn(LEGAL_LINKS, kind))
+        throw Error('Unknown legal link.'); window.open(LEGAL_LINKS[kind], '_blank', 'noopener,noreferrer'); },
     sessionState: async () => ({ ...previewSession }), setReadOnly: async (value) => (previewSession = { read_only: value, locked: false }), launchFiles: async () => ({ paths: [], warnings: [] }), onOpenFiles: () => { }, onSession: () => { }, exportReport: disabled,
     pickFiles: async () => ({ paths: files.map(f => f.path), warnings: [] }), dropped: async () => ({ paths: [], warnings: ['File reading is disabled in the interface preview. Use Add files to load synthetic samples.'] }),
     inspect: async (path) => { const f = files.find(f => f.path === path); if (!f)
@@ -431,7 +472,8 @@ window.ki = {
 
 
 
-const generalViews = ['presets', 'history', 'tools', 'guide', 'overview', 'compare', 'batch', 'reports'];
+
+const generalViews = ['presets', 'history', 'tools', 'guide', 'overview', 'compare', 'batch', 'reports', 'legal'];
 const entries = new Map();
 let current = null, tab = 'fields', filter = 'all', search = '', busy = false, stop = false;
 let presets = [], history = [], diagnostics = null;
@@ -592,10 +634,10 @@ function renderHeader() {
     const wrapper = element('div');
     const general = generalViews.includes(tab);
     wrapper.append(element('div', 'eyebrow', general ? 'WORKSPACE / ' + tab.toUpperCase() : entry ? `${entry.doc.kind.toUpperCase()} / METADATA EDITOR` : 'YOUR FILES. YOUR METADATA.'));
-    const heading = general ? { presets: 'Team presets', history: 'Save history', tools: 'Settings', guide: 'Formats & help', overview: 'Workspace overview', compare: 'Compare files', batch: 'Batch edit', reports: 'Workspace report' }[tab] : entry ? entry.doc.name.replace(/\.[^.]+$/, '') : 'Make every file ready.';
+    const heading = general ? { presets: 'Team presets', history: 'Save history', tools: 'Settings', guide: 'Formats & help', overview: 'Workspace overview', compare: 'Compare files', batch: 'Batch edit', reports: 'Workspace report', legal: 'Legal & privacy' }[tab] : entry ? entry.doc.name.replace(/\.[^.]+$/, '') : 'Make every file ready.';
     wrapper.append(element('h1', 'document-title', heading));
     const sub = element('div', 'document-subtitle');
-    sub.textContent = general ? { overview: 'Your files, review findings and saved outputs in one inventory.', compare: 'Understand what changed between two files.', batch: 'Preview changes across the selected files before saving.', reports: 'Share a useful record with deliberate control over private details.', presets: 'Reusable metadata templates for the whole team.', history: 'Saved outputs, verification and recoverable originals.', tools: 'Local preferences and the engines included with this utility.', guide: 'What each format supports, and how to get started.' }[tab] ?? '' : entry ? `${entry.doc.format}  ·  ${formatBytes(entry.doc.size)}  ·  ${canEdit(entry.doc) ? 'Metadata editing available' : 'Inspection only'}` : 'The file utility for everyone at Kuykendall Industries.';
+    sub.textContent = general ? { overview: 'Your files, review findings and saved outputs in one inventory.', compare: 'Understand what changed between two files.', batch: 'Preview changes across the selected files before saving.', reports: 'Share a useful record with deliberate control over private details.', presets: 'Reusable metadata templates for the whole team.', history: 'Saved outputs, verification and recoverable originals.', tools: 'Local preferences and the engines included with this utility.', guide: 'What each format supports, and how to get started.', legal: 'Software and Privacy Notice · ' + LEGAL_DATE }[tab] ?? '' : entry ? `${entry.doc.format}  ·  ${formatBytes(entry.doc.size)}  ·  ${canEdit(entry.doc) ? 'Metadata editing available' : 'Inspection only'}` : 'The file utility for everyone at Kuykendall Industries.';
     wrapper.append(sub);
     header.append(wrapper);
     if (entry && !general) {
@@ -1685,6 +1727,22 @@ function renderTools(root) {
         root.append(element('p', 'hint', 'Local configuration and history: ' + diagnostics.data_dir));
     root.append(element('p', 'hint', 'Choose only a trusted FFmpeg/ffprobe executable. The app invokes the selected program directly, without a shell. Engines run locally. No download happens inside the app.'));
 }
+function renderLegal(root) {
+    const notice = element('article', 'legal-notice');
+    notice.dataset.legalVersion = LEGAL_VERSION;
+    notice.append(element('p', 'hint', 'Version: ' + LEGAL_VERSION + ' · Effective ' + LEGAL_DATE));
+    for (const section of LEGAL_SECTIONS) {
+        const block = element('section');
+        block.append(element('h2', '', section.heading));
+        for (const paragraph of section.paragraphs)
+            block.append(element('p', '', paragraph));
+        notice.append(block);
+    }
+    const links = element('div', 'row legal-links');
+    links.append(button('Open KI contact form', undefined, () => bridge.openLegalLink('contact'), 'button subtle'), button('Open KI Privacy Policy', undefined, () => bridge.openLegalLink('privacy'), 'button subtle'));
+    notice.append(links, element('p', 'hint', 'Links open in your browser. No files or history are attached.'));
+    root.append(notice);
+}
 function formDialog(heading, message, fields, submit = 'Save') {
     const dialog = $('dialog');
     dialog.classList.remove('command-dialog');
@@ -1788,7 +1846,7 @@ function showCommands() {
     root.append(search);
     const list = element('div', 'command-results');
     root.append(list);
-    const commands = [['Open files', 'Ctrl+O', () => openFiles()], ['Open a folder', '', () => openFiles(true)], ['Workspace overview', '', () => { tab = 'overview'; render(); }], ['Inspect-only mode', '', toggleMode], ['Compare files', '', () => { tab = 'compare'; render(); }], ['Batch edit', '', () => { tab = 'batch'; render(); }], ['Workspace report', '', () => { tab = 'reports'; render(); }], ['Prepare for sharing', '', () => { tab = 'sharing'; render(); }], ['Save copies', 'Ctrl+Shift+S', () => saveEntries(false)], ['Team presets', '', () => { tab = 'presets'; render(); }], ['Formats & help', '', () => { tab = 'guide'; render(); }], ['Save history', '', showHistory], ['Settings', '', showTools]];
+    const commands = [['Open files', 'Ctrl+O', () => openFiles()], ['Open a folder', '', () => openFiles(true)], ['Workspace overview', '', () => { tab = 'overview'; render(); }], ['Inspect-only mode', '', toggleMode], ['Compare files', '', () => { tab = 'compare'; render(); }], ['Batch edit', '', () => { tab = 'batch'; render(); }], ['Workspace report', '', () => { tab = 'reports'; render(); }], ['Prepare for sharing', '', () => { tab = 'sharing'; render(); }], ['Save copies', 'Ctrl+Shift+S', () => saveEntries(false)], ['Team presets', '', () => { tab = 'presets'; render(); }], ['Formats & help', '', () => { tab = 'guide'; render(); }], ['Save history', '', showHistory], ['Settings', '', showTools], ['Legal & privacy', '', () => { tab = 'legal'; render(); }]];
     const fill = () => { list.replaceChildren(); for (const [label, key, action] of commands.filter(c => c[0].toLowerCase().includes(search.value.toLowerCase()))) {
         const item = button(label, undefined, () => { dialog.close(); return action(); }, 'command-item');
         if (key)
@@ -1822,7 +1880,7 @@ function showCommands() {
 function render() {
     document.body.classList.toggle('welcome-mode', !active() && tab === 'fields');
     document.body.classList.toggle('utility-page', generalViews.includes(tab));
-    for (const [id, on] of [['nav-workspace', !generalViews.includes(tab)], ['nav-overview', tab === 'overview'], ['nav-compare', tab === 'compare'], ['nav-batch', tab === 'batch'], ['nav-reports', tab === 'reports'], ['nav-presets', tab === 'presets'], ['nav-formats', tab === 'guide']])
+    for (const [id, on] of [['nav-workspace', !generalViews.includes(tab)], ['nav-overview', tab === 'overview'], ['nav-compare', tab === 'compare'], ['nav-batch', tab === 'batch'], ['nav-reports', tab === 'reports'], ['nav-presets', tab === 'presets'], ['nav-formats', tab === 'guide'], ['nav-legal', tab === 'legal']])
         $(id).classList.toggle('active', on);
     renderLibrary();
     renderHeader();
@@ -1848,6 +1906,8 @@ function render() {
         renderHistory(root);
     else if (tab === 'tools')
         renderTools(root);
+    else if (tab === 'legal')
+        renderLegal(root);
     else if (!entry)
         welcome(root);
     else if (tab === 'fields')
@@ -1877,7 +1937,7 @@ function init() {
     $('add-folder').addEventListener('click', () => void openFiles(true).catch(showError));
     $('command-button').addEventListener('click', showCommands);
     $('session-mode').addEventListener('click', () => void toggleMode().catch(showError));
-    for (const [id, name, view] of [['nav-workspace', 'file', 'fields'], ['nav-overview', 'grid', 'overview'], ['nav-compare', 'compare', 'compare'], ['nav-batch', 'layers', 'batch'], ['nav-reports', 'download', 'reports'], ['nav-presets', 'spark', 'presets'], ['nav-formats', 'help', 'guide']]) {
+    for (const [id, name, view] of [['nav-workspace', 'file', 'fields'], ['nav-overview', 'grid', 'overview'], ['nav-compare', 'compare', 'compare'], ['nav-batch', 'layers', 'batch'], ['nav-reports', 'download', 'reports'], ['nav-presets', 'spark', 'presets'], ['nav-formats', 'help', 'guide'], ['nav-legal', 'shield', 'legal']]) {
         $(id).prepend(icon(name, 17));
         $(id).addEventListener('click', () => { tab = view; render(); });
     }
@@ -1913,7 +1973,7 @@ function init() {
     bridge.onOpenFiles(pick => void importResult(pick));
     bridge.onSession(state => { session = state; render(); });
     void bridge.sessionState().then(state => { session = state; render(); return bridge.launchFiles(); }).then(importResult).catch(showError);
-    bridge.onMenu(action => { const handlers = { open: () => openFiles(), folder: () => openFiles(true), save: () => saveEntries(false), replace: () => saveEntries(true), history: showHistory, tools: showTools, commands: showCommands }; try {
+    bridge.onMenu(action => { const handlers = { open: () => openFiles(), folder: () => openFiles(true), save: () => saveEntries(false), replace: () => saveEntries(true), history: showHistory, tools: showTools, legal: () => { tab = 'legal'; render(); }, commands: showCommands }; try {
         const result = handlers[action]?.();
         if (result instanceof Promise)
             void result.catch(showError);
